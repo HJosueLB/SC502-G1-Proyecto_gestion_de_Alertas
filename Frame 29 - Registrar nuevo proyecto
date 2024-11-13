@@ -35,7 +35,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             position: relative;
-            text-align: left; /* Alineación a la izquierda */
+            text-align: left; 
         }
         .form-title {
             font-size: 1.8em;
@@ -74,8 +74,8 @@
             margin-right: 10px;
             font-weight: bold;
             font-size: 0.9em;
-            width: 150px; /* Ancho fijo para los labels */
-            text-align: right; /* Alineación del texto a la derecha */
+            width: 150px; /* fix wide for labels*/
+            text-align: right; /* right text aligment*/
         }
         input[type="text"],
         textarea {
@@ -84,13 +84,13 @@
             border-radius: 5px;
             font-size: 0.9em;
             background-color: #f4f4f9;
-            width: 100%; /* Ancho consistente */
-            max-width: 250px; /* Ajuste opcional para limitar el tamaño */
-            box-sizing: border-box; /* Asegura que el padding no exceda el ancho */
+            width: 100%; /* fixed wide */
+            max-width: 250px; /* size lmit*/
+            box-sizing: border-box; /* the padding will not be higher than the wide*/
         }
         textarea {
             resize: none;
-            height: 40px; /* Ajuste de altura para que sean menos altos */
+            height: 40px; /* correct hight*/
         }
     </style>
 </head>
