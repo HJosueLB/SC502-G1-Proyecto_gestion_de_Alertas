@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Alerta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .navbar {
+            background-color: #4a4a4a;
+            padding: 1em;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .navbar .profile {
+            margin-left: auto;
+        }
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .form-title {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        .button-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .button {
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            color: black;
+            background-color: #ff8c00;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+        }
+        .content-container {
+            margin-top: 40px;
+        }
+        .category {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .dot-container {
+            display: flex;
+            gap: 5px;
+            padding: 5px 10px;
+            background-color: #b0c4de;
+            border-radius: 20px;
+        }
+        .dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        .dot.red { background-color: red; }
+        .dot.yellow { background-color: yellow; }
+        .dot.green { background-color: green; }
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1em;
+        }
+        .description-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .description-box {
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f4f4f9;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#">Alertas por cliente</a>
+        <a href="#">Alertas - procedimientos</a>
+        <a href="#">Notificaciones</a>
+        <a href="#">Proyectos</a>
+        <a href="#">Administración</a>
+        <a href="#" class="profile">Mi perfil</a>
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <div class="button-container">
+            <button class="button">⬅️ Regresar</button>
+        </div>
+
+        <h2 class="form-title">Nombre de la Alerta:</h2>
+        <p>Lorem Ipsum is simply dummy text of the printing</p>
+
+        <div class="content-container">
+            <div class="category">
+                <span class="section-title">Criticidad categorizada:</span>
+                <div class="dot-container">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+            </div>
+
+            <div class="description-container">
+                <!-- Descripción -->
+                <div class="description-box">
+                    <div class="section-title">Descripción:</div>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                </div>
+
+                <!-- Procedimiento recomendado -->
+                <div class="description-box">
+                    <div class="section-title">Procedimiento recomendado:</div>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
