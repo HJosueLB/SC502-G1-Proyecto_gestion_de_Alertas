@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto: Lorem Ipsum</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: #525252;
+            color: #fff;
+            padding: 16px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 14px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            display: flex;
+            gap: 55px;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section {
+            flex: 1;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            width: 200px; /* Ancho fijo para los labels */
+            margin-right: 10px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .form-group input {
+            padding: 5px;
+            background-color: #f4f4f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 400px; /* Establece un ancho específico */
+        }
+
+        .related-options {
+            margin-top: 20px;
+        }
+
+        .related-options button {
+            display: block;
+            width: 50%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f0ad4e;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .related-options button:hover {
+            background-color: #f2a516;
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .edit-button, .save-button {
+            padding: 10px 15px;
+            background-color: #f0ad4e;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .edit-button:hover, .save-button:hover {
+            background-color: #f2a516;
+        }
+
+        button i {
+            margin-right: 5px; /* Espacio entre el ícono y el texto */
+            font-size: 16px;   /* Tamaño del ícono */
+            vertical-align: middle; /* Alineación con el texto */
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="#">Alertas por cliente</a>
+            <a href="#">Alertas - procedimientos</a>
+            <a href="#">Notificaciones</a>
+            <a href="#"><strong>Proyectos</strong></a>
+            <a href="#">Administración</a>
+            <br>
+            <a href="#">Mi perfil</a>
+        </nav>
+    </header>
+    <main>
+        <div class="actions">
+            <button class="edit-button">
+                <i class="fas fa-pencil-square"></i> Registrar nuevo grupo
+            </button>
+        </div>
+        <h1>Crear grupo de contacto de escalación</h1>
+        <div class="form-container">
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="nombre-grupo">Nombre de grupo:</label>
+                    <input type="text" id="nombre-grupo">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="nombre-lider">Nombre de contacto líder:</label>
+                    <input type="text" id="nombre-lider">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="numero-celular">Número de celular:</label>
+                    <input type="text" id="numero-celular">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="numero-oficina">Número de oficina:</label>
+                    <input type="text" id="numero-oficina">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="correo-electrónico">Correo electrónico:</label>
+                    <input type="text" id="correo-electrónico">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="puesto">Puesto:</label>
+                    <input type="text" id="puesto">
+                </div>
+                <br>
+            </div>
+            <br>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

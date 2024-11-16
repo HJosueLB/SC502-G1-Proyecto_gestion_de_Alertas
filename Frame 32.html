@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto: Lorem Ipsum</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: #525252;
+            color: #fff;
+            padding: 16px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 14px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            display: flex;
+            gap: 55px;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section {
+            flex: 1;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            width: 200px; /* Ancho fijo para los labels */
+            margin-right: 10px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .form-group input {
+            flex: 1; /* Los inputs ocuparán el espacio restante */
+            padding: 5px;
+            background-color: #f4f4f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: auto; /* Ajusta el ancho */
+        }
+
+        .related-options {
+            margin-top: 20px;
+        }
+
+        .related-options button {
+            display: block;
+            width: 50%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f0ad4e;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .related-options button:hover {
+            background-color: #f2a516;
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .edit-button, .save-button {
+            padding: 10px 15px;
+            background-color: #f0ad4e;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .edit-button:hover, .save-button:hover {
+            background-color: #f2a516;
+        }
+
+        button i {
+            margin-right: 5px; /* Espacio entre el ícono y el texto */
+            font-size: 16px;   /* Tamaño del ícono */
+            vertical-align: middle; /* Alineación con el texto */
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="#">Alertas por cliente</a>
+            <a href="#">Alertas - procedimientos</a>
+            <a href="#">Notificaciones</a>
+            <a href="#"><strong>Proyectos</strong></a>
+            <a href="#">Administración</a>
+            <br>
+            <a href="#">Mi perfil</a>
+        </nav>
+    </header>
+    <main>
+        <div class="actions">
+            <button class="edit-button">
+                <i class="fas fa-pencil-square"></i> Editar
+            </button>
+            <button class="save-button">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </div>
+        <h1>Proyecto: Lorem Ipsum</h1>
+        <div class="form-container">
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="nombre-cliente">Nombre del cliente:</label>
+                    <input type="text" id="nombre-cliente">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="numero-proyecto">Número de proyecto:</label>
+                    <input type="text" id="numero-proyecto">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="fecha-inicio">Fecha inicio:</label>
+                    <input type="date" id="fecha-inicio">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="fecha-fin">Fecha fin:</label>
+                    <input type="date" id="fecha-fin">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="tipo-contrato">Tipo de contrato:</label>
+                    <input type="text" id="tipo-contrato">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="vendedor-cuenta">Vendedor de la cuenta:</label>
+                    <input type="text" id="vendedor-cuenta">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="gestor-contrato">Gestor de contrato:</label>
+                    <input type="text" id="gestor-contrato">
+                </div>
+                <br>
+            </div>
+            <br>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="unidad-negocio">Unidad de negocio:</label>
+                    <input type="text" id="unidad-negocio">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="cobros-mensuales">Cobros mensuales:</label>
+                    <input type="text" id="cobros-mensuales">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="servicio-contratado">Servicio contratado:</label>
+                    <input type="text" id="servicio-contratado">
+                </div>
+                <br>
+                <br>
+                <div class="form-group">
+                    <label for="opciones-relacionadas">Opciones relacionadas:</label>
+                </div>
+                <br>
+
+                <div class="related-options">
+                    <button>
+                        <i class="fas fa-pencil-square"></i> Ver contactos de escalación
+                    </button>
+                    <button>
+                        <i class="fas fa-pencil-square"></i> Asignar alertas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
