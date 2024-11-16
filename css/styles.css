@@ -1,0 +1,245 @@
+@charset "UTF-8";
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+.navbar {
+    background-color: #4a4a4a;
+    padding: 1em;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.button-back-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    border: 0.5px solid #000000;
+    cursor: pointer;
+    color: black;
+    border-radius: 5px;
+
+}
+
+.button-back,
+.button-register,
+.button-copy {
+    background-color: #ff8c00;
+}
+
+.alert-info,
+.contact-info {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 1px;
+    background-color: #fff;
+    width: 100%;
+    /* 100% wide */
+}
+
+.alert-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.alert-details {
+    width: 55%;
+    /* wider */
+    min-height: 200px;
+    /* Minimun hight */
+}
+
+.contact-info {
+    width: 40%;
+    /*  wider */
+    min-height: 170px;
+    /* Minimun hight */
+    background-color: #ffffff;
+    padding: 100px;
+    /* more internal space */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    align-self: flex-start;
+    /* allow content to be always on top*/
+    text-align: center;
+    /* Centers the title*/
+}
+
+.alert-info h3,
+.contact-info h3 {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.criticality {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.criticality div {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid #000;
+    /* opciotal border*/
+}
+
+.low {
+    background-color: green;
+    /* Low criticality Color */
+}
+
+.medium {
+    background-color: yellow;
+    /* Mid criticality Color */
+}
+
+.high {
+    background-color: red;
+    /* High criticality Color */
+}
+
+.description-box {
+    background-color: #ffffff;
+    padding: 20px;
+    /* more internal space */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+    /* Bigger Margin top*/
+    min-height: 150px;
+    /* Minimum hight */
+    height: 200px;
+}
+
+.contact-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.contact-table th,
+.contact-table td {
+    border: #ddd;
+    padding: 1px;
+    text-align: left;
+}
+
+.contact-table th {
+    background-color: #f2f2f2;
+}
+
+.button-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.center {
+    text-align: center;
+}
+
+.navbar {
+    background-color: #4a4a4a;
+    padding: 1em;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    /* Cambiado de center a space-between */
+    align-items: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.navbar .profile {
+    margin-left: auto;
+    /* Esto moverá "Mi perfil" al extremo derecho */
+}
+
+.footer {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    --bs-bg-opacity: 1;
+    background-color: #000;
+    padding: 0;
+    text-align: center;
+    --bs-text-opacity: 1;
+    color: white;
+}
+
+.search-section {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+}
+
+.table thead th {
+    background-color: #ff8c00;
+    color: #000;
+}
+
+.btn-search {
+    background-color: #ff8c00;
+    color: #000;
+    border-radius: 5px;
+
+}
+
+.btn-search:hover {
+    background-color: #ff8c00;
+    color: white;
+}
+
+.no-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.highlight {
+    color: #ffffff;
+    /* Brighter white*/
+    font-weight: 700;
+    /* Bolder text */
+}
