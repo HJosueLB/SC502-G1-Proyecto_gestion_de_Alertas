@@ -1,16 +1,3 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
-}
-
-.container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-}
-
 .title {
     font-size: 1.5em;
     margin-bottom: 10px;
@@ -28,14 +15,16 @@ body {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 10px;
+    margin-left: 10px;
 }
 
 button {
     padding: 10px 20px;
-    border: none;
+    border: 0.5px solid #000000;
     cursor: pointer;
     color: black;
     border-radius: 5px;
+
 }
 
 .button-back,
@@ -61,29 +50,6 @@ button {
     align-items: flex-start;
 }
 
-.alert-details {
-    width: 55%;
-    /* wider */
-    min-height: 200px;
-    /* Minimun hight */
-}
-
-.contact-info {
-    width: 40%;
-    /*  wider */
-    min-height: 170px;
-    /* Minimun hight */
-    background-color: #ffffff;
-    padding: 100px;
-    /* more internal space */
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    align-self: flex-start;
-    /* alloew content to be always on top*/
-    text-align: center;
-    /* Centers the title*/
-}
-
 .alert-info h3,
 .contact-info h3 {
     margin-top: 0;
@@ -105,12 +71,12 @@ button {
 }
 
 .low {
-    background-color: rgb(0, 0, 0);
+    background-color: green;
     /* Low criticality Color */
 }
 
 .medium {
-    background-color: rgb(0, 0, 0);
+    background-color: yellow;
     /* Mid criticality Color */
 }
 
@@ -159,23 +125,29 @@ button {
     text-align: center;
 }
 
-.navbar {
-    background-color: #4a4a4a;
-    padding: 1em;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    /* Cambiado de center a space-between */
-    align-items: center;
+.search-section {
+   
+    padding: 20px 0;
 }
 
-.navbar a {
+.table thead th {
+    background-color: #ff8c00;
+    color: #000;
+}
+
+.btn-search {
+    background-color: #ff8c00;
+    color: #000;
+    border-radius: 5px;
+
+}
+
+.btn-search:hover {
+    background-color: #ff8c00;
     color: white;
+}
+
+.no-link {
+    color: inherit;
     text-decoration: none;
-    margin: 0 10px;
-}
-
-.navbar .profile {
-    margin-left: auto;
-    /* Esto moverá "Mi perfil" al extremo derecho */
 }

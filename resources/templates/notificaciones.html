@@ -7,13 +7,14 @@
     <title>Página de Alerta</title>
 
     <!-- Link to CSS-->
+    <link rel="stylesheet" href="/assets/css/notificaciones.css">
     <link rel="stylesheet" href="/assets/css/common.css">
-    <link rel="stylesheet" href="/assets/css/alerta-detalle.css">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 </head>
 
@@ -62,66 +63,69 @@
         <!-- Container -->
         <div class="container">
 
-            <!-- Right alignment, back button -->
-            <div class="button-back-container">
-                <a href="alerta-cliente.html">
-                    <button class="button-back">← Regresar</button>
-                </a>
-            </div>
-
-            <p>Nombre de la Alerta:</p>
-            <div class="title">Brute Force Host Login Success</div>
-            <div class="criticality">
-                <span>Criticidad:</span>
-                <div class="low" title="Baja"></div>
-                <div class="medium" title="Media"></div>
-                <div class="high" title="Alta"></div>
-            </div>
-
-            <div class="buttons-container">
-                <a href="notificaciones-registro.html">
-                    <button class="button-register button-icon">✏️ Registrar notificación</button>
-                </a>
-                <button class="button-copy">Copiar correos a notificar</button>
-            </div>
-
-            <div class="alert-info">
-                <div class="alert-details">
-                    <table class="contact-table">
-                        <br>
-                        <tr>
-                            <th>Medio de notificación</th>
-                            <th>Horario</th>
-                            <th>Tipo</th>
-                        </tr>
-                        <tr>
-                            <td>Correo</td>
-                            <td>24/7</td>
-                            <td>SOC</td>
-                        </tr>
-                    </table>
-                    <br>
-
-                    <h3>Descripción</h3>
-                    <div class="description-box">
-                        Detecta una condición inusual en la que una fuente tiene fallas de autenticación seguidas de una
-                        autenticación exitosa en el mismo host en 15 minutos
+            <!--Search-section bar -->
+            <div class="search-section">
+                <div class="container">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Buscar">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn-search">
+                                <i class="bi bi-search"></i> Buscar
+                            </button>
+                            <button class="btn-search ">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                                Actualizar
+                            </button>
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <a href="notificaciones-registro.html">
+                                <button class="btn-search">
+                                    <i class="fa-solid fa-pen-to-square fa-1x icon-spacing"></i>
+                                    Registrar notificación
+                                </button>
+                            </a>                            
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="contact-info">
-                    <h3 class="center">Contactos a notificar</h3>
-                    <table class="contact-table">
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Teléfono</th>
-                            <th>Correo</th>
-                        </tr>
-                        <tr>
-                            <td>Luis Ilama</td>
-                            <td>608745XX</td>
-                            <td>lilama@mep.go.cr</td>
-                        </tr>
+            <!-- Tabla de Datos -->
+            <div class="container mt-4">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Opciones</th>
+                                <th>Código ID</th>
+                                <th>Marca temporal</th>
+                                <th>Analista</th>
+                                <th>Cliente</th>
+                                <th>Alerta</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <a href="notificaciones-detalle.html" class="d-flex flex-column align-items-center text-center no-link">
+                                            <i class="fa-solid fa-up-right-from-square fa-2x icon-spacing"
+                                                style="color: #000000"></i>
+                                            Abrir
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>NOT-0000001</td>
+                                <td>17-11-2024 15:05</td>
+                                <td>Harlyn Josue Luna Brenes</td>
+                                <td>Ministerio de Educación Pública</td>
+                                <td>Brute Force Host Login Success</td>
+                                <td>MEP - FORTISIEM - Brute Force Host Login Success</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -139,10 +143,12 @@
         </div>
     </footer>
 
+    <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
 </body>
+
 
 </html>
