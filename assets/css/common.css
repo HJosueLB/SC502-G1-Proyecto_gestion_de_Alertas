@@ -1,0 +1,96 @@
+/* Style for the nav */
+#nav_common {
+    background-color: #525252;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#nav_common .navbar-nav .nav-link {
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+/* Effect when hovering or selecting a link */
+#nav_common .navbar-nav .nav-link:hover,
+#nav_common .navbar-nav .nav-link:focus {
+    color: #dcdcdc;
+}
+
+/* Style for "Mi Perfil" */
+#nav_miperfil {
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+#nav_miperfil:hover,
+#nav_miperfil:focus {
+    color: #dcdcdc;
+}
+
+/* Style for the logo */
+#nav_common .navbar-brand img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+/* Additional spacing to the left of the logo OBGroup */
+#nav_common .navbar-brand {
+    margin-left: 20px;
+}
+
+/* Ensures the footer stays at the bottom of the page */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Align and center the section */
+.section_common {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    background-color: transparent;
+    border-radius: 8px;
+    flex-grow: 1;
+}
+
+/* Style for the h5 of the section */
+.section_common h5 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #eb8934;
+}
+
+/* Style for the paragraph of the section */
+.section_common p {
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: bold;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-top: 20px;
+}
+
+/* Style for the footer */
+#footer_common {
+    background-color: #525252;
+    margin-top: auto;
+    padding: 20px 0;
+    text-align: center;
+    color: white;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#footer_common p {
+    font-size: 1rem;
+    margin: 0;
+}
