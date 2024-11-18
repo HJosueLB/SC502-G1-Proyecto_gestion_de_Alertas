@@ -1,0 +1,153 @@
+.title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.button-back-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    border: 0.5px solid #000000;
+    cursor: pointer;
+    color: black;
+    border-radius: 5px;
+
+}
+
+.button-back,
+.button-register,
+.button-copy {
+    background-color: #ff8c00;
+}
+
+.alert-info,
+.contact-info {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 1px;
+    background-color: #fff;
+    width: 100%;
+    /* 100% wide */
+}
+
+.alert-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.alert-info h3,
+.contact-info h3 {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.criticality {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.criticality div {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid #000;
+    /* opciotal border*/
+}
+
+.low {
+    background-color: green;
+    /* Low criticality Color */
+}
+
+.medium {
+    background-color: yellow;
+    /* Mid criticality Color */
+}
+
+.high {
+    background-color: red;
+    /* High criticality Color */
+}
+
+.description-box {
+    background-color: #ffffff;
+    padding: 20px;
+    /* more internal space */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+    /* Bigger Margin top*/
+    min-height: 150px;
+    /* Minimum hight */
+    height: 200px;
+}
+
+.contact-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.contact-table th,
+.contact-table td {
+    border: #ddd;
+    padding: 1px;
+    text-align: left;
+}
+
+.contact-table th {
+    background-color: #f2f2f2;
+}
+
+.button-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.center {
+    text-align: center;
+}
+
+.search-section {
+   
+    padding: 20px 0;
+}
+
+.table thead th {
+    background-color: #ff8c00;
+    color: #000;
+}
+
+.btn-search {
+    background-color: #ff8c00;
+    color: #000;
+    border-radius: 5px;
+
+}
+
+.btn-search:hover {
+    background-color: #ff8c00;
+    color: white;
+}
+
+.no-link {
+    color: inherit;
+    text-decoration: none;
+}
