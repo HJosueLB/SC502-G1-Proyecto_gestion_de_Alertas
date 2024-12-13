@@ -1,0 +1,101 @@
+<?php
+session_start();
+
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
+    header("Location: login-page.php");
+    exit();
+}
+
+// Variable para controlar la visibilidad de elementos
+$esAdmin = ($_SESSION['rol'] === 'administrador');
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de alertas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/SC502-G1-Proyecto_gestion_de_Alertas/assets/css/common.css">
+</head>
+
+<body>
+    <!-- Development of the common navbar for the project -->
+    <nav class="navbar navbar-expand-lg" id="nav_common">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="common.html" id="nav_logoCommon">
+                <img src="/SC502-G1-Proyecto_gestion_de_Alertas/assets/media/logo.png" alt="Logo">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="alerta-cliente.html">Alertas por cliente</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="procedimientos.html">Alertas - procedimientos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="notificaciones.html">Notificaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="proyectos.php">Proyectos</a>
+                    </li>
+                    
+                    <?php if ($esAdmin): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contactos-grupos.html">Contactos</a>
+                    </li>
+                    <?php endif; ?>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Administración
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Administrar usuarios</a></li>
+                            <li><a class="dropdown-item" href="#">Administrar clientes</a></li>
+                            <li><a class="dropdown-item" href="#">Administrar roles</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <a class="nav-link" href="cerrar-sesion.php" id="nav_logout">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome section of the project -->
+    <section class="section_common">
+        <h5>Bienvenido al Gestor de Alertas NOC / SOC</h5>
+        <p>
+            Como analista, tu dedicación y habilidad son fundamentales para asegurar que nuestros sistemas y los de
+            nuestros clientes se mantengan seguros y operativos en todo momento. Tu trabajo no solo protege las
+            operaciones críticas, sino que también garantiza la tranquilidad de quienes confían en nosotros.
+            <br><br>¡Gracias
+            por ser parte esencial de nuestro equipo y por tu compromiso en hacer la diferencia cada día!
+        </p>
+    </section>
+
+    <!-- Development of the common footer for the project -->
+    <footer class="mt-auto p-2" id="footer_common">
+        <div class="container">
+            <div class="col">
+                <p class="lead text-center" style="font-size: 1rem;">
+                    Derechos Reservados Gestor de alertas - Universidad Fidélitas &COPY; 2024
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -60,6 +60,8 @@ CREATE TABLE GestorAlertas.empleado (
     nombre VARCHAR(30) NOT NULL,
     apellido VARCHAR(30) NOT NULL,
     correo VARCHAR(50) NOT NULL UNIQUE,
+    contraseña VARCHAR(10) NOT NULL,
+    rol ENUM('administrador') DEFAULT 'administrador' NOT NULL,
     idPuesto INT NOT NULL,
     idDepartamento INT NOT NULL,
     PRIMARY KEY (idEmpleado),
@@ -72,12 +74,14 @@ CREATE TABLE GestorAlertas.empleado (
 )  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4;
 
 -- Insertar datos de tabla
-INSERT INTO GestorAlertas.empleado (idEmpleado,nombre, apellido, correo, idPuesto, idDepartamento) 
+
+INSERT INTO GestorAlertas.empleado (idEmpleado,nombre, apellido, correo, contraseña, rol, idPuesto, idDepartamento) 
 VALUES 
-(409850985,'Harlyn', 'Luna', 'hluna@corp.com', 1, 1),
-(111345356,'Carmen', 'Fonseca Espinoza', 'cfonsecae@corp.com', 4, 3),
-(111345764,'Esther', 'Murillo Calderón', 'emurilloc@corp.com', 3, 2),
-(809867065,'Roberto', 'Zambrana', 'rzambrana@corp.com', 2, 1);
+(409850985,'Harlyn', 'Luna', 'hluna@corp.com', '12345aa***', 'administrador', 1, 1),
+(111345356,'Carmen', 'Fonseca Espinoza', 'cfonsecae@corp.com', '123456a***', 'administrador', 4, 3),
+(111345764,'Esther', 'Murillo Calderón', 'emurilloc@corp.com', '1234567a**', 'administrador', 3, 2),
+(809867065,'Roberto', 'Zambrana', 'rzambrana@corp.com', '12345678a*', 'administrador', 2, 1);
+
 
 -- Tabla 'servicio'
 CREATE TABLE GestorAlertas.servicio (
@@ -109,13 +113,17 @@ VALUES
 CREATE TABLE GestorAlertas.cliente (
     idCliente INT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL,
+    correo VARCHAR(50) NOT NULL UNIQUE,
+    contraseña VARCHAR(10) NOT NULL,
+    rol ENUM('cliente') DEFAULT 'cliente' NOT NULL,
     PRIMARY KEY (idCliente)
 )  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4;
 
 -- Insertar datos de tabla
-INSERT INTO GestorAlertas.cliente (nombre)
+INSERT INTO GestorAlertas.cliente (nombre, correo, contraseña, rol)
 VALUES 
-('Ministerio de Educación Pública');
+('Jean Pool Pérez Carranza','jeanpoolperez@gmail.com', '12345qwer*', 'cliente',);
+
 
 -- Tabla 'proyecto'
 CREATE TABLE GestorAlertas.proyecto (
