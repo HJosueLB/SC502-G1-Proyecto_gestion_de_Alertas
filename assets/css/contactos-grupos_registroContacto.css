@@ -1,0 +1,76 @@
+.form-group label {
+    width: 200px;
+    /* Ancho fijo para los labels */
+    margin-right: 10px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.form-group input {
+    padding: 5px;
+    background-color: #FBFCF5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 400px;
+    /* Establece un ancho específico */
+}
+
+.related-options {
+    margin-top: 20px;
+}
+
+.related-options button {
+    display: block;
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f0ad4e;
+    color: #000000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.related-options button:hover {
+    background-color: #f2a516;
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.edit-button,
+.save-button {
+    padding: 8px 15px;
+    background-color: #f0ad4e;
+    color: #000000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.edit-button:hover,
+.save-button:hover {
+    background-color: #f2a516;
+}
+
+button i {
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
+    font-size: 16px; /* Tamaño del ícono */
+    vertical-align: middle; /* Alineación con el texto */
+}
+
+.search-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+a {
+    margin-left: 10px; 
+}

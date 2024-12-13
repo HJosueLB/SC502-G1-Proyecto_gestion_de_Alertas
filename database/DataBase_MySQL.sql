@@ -74,12 +74,14 @@ CREATE TABLE GestorAlertas.empleado (
 )  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4;
 
 -- Insertar datos de tabla
+
 INSERT INTO GestorAlertas.empleado (idEmpleado,nombre, apellido, correo, contraseña, rol, idPuesto, idDepartamento) 
 VALUES 
 (409850985,'Harlyn', 'Luna', 'hluna@corp.com', '12345aa***', 'administrador', 1, 1),
 (111345356,'Carmen', 'Fonseca Espinoza', 'cfonsecae@corp.com', '123456a***', 'administrador', 4, 3),
 (111345764,'Esther', 'Murillo Calderón', 'emurilloc@corp.com', '1234567a**', 'administrador', 3, 2),
 (809867065,'Roberto', 'Zambrana', 'rzambrana@corp.com', '12345678a*', 'administrador', 2, 1);
+
 
 -- Tabla 'servicio'
 CREATE TABLE GestorAlertas.servicio (
@@ -121,6 +123,7 @@ CREATE TABLE GestorAlertas.cliente (
 INSERT INTO GestorAlertas.cliente (nombre, correo, contraseña, rol)
 VALUES 
 ('Jean Pool Pérez Carranza','jeanpoolperez@gmail.com', '12345qwer*', 'cliente',);
+
 
 -- Tabla 'proyecto'
 CREATE TABLE GestorAlertas.proyecto (

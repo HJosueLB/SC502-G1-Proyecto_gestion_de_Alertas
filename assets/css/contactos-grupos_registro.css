@@ -1,0 +1,63 @@
+.form-title {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    margin-right: 20px; 
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+}
+
+.button {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    color: black;
+    background-color: #ff8c00;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+label {
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 0.9em;
+    width: 150px; /* Fija el ancho para los labels */
+    text-align: right; /* Alineación del texto a la derecha */
+}
+
+input[type="text"],
+textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9em;
+    background-color: #FBFCF5;
+    width: 100%; /* Ancho 100% */
+    max-width: 250px; /* Limita el tamaño */
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño */
+}

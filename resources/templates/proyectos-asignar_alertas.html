@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto: Lorem Ipsum</title>
+
+    <!-- Link to CSS-->
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <link rel="stylesheet" href="/assets/css/proyectos-asignar_alertas.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Development of the common navbar for the project -->
+    <nav class="navbar navbar-expand-lg" id="nav_common">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="common.html" id="nav_logoCommon">
+                <img src="/assets/media/logo.png" alt="Logo">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="alerta-cliente.html">Alertas por cliente</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="procedimientos.html">Alertas - procedimientos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="notificaciones.html">Notificaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="proyectos.html">Proyectos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contactos-grupos.html">Contactos</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Administración
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Administrar usuarios</a></li>
+                            <li><a class="dropdown-item" href="#">Administrar clientes</a></li>
+                            <li><a class="dropdown-item" href="#">Administrar roles</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <a class="nav-link" href="#" id="nav_miperfil">Mi perfil</a>
+            </div>
+        </div>
+    </nav>
+
+    <section>
+
+        <div class="container">
+
+            <div class="header-container">
+                <h2>Asignación de alerta:</h2>
+                <div class="button-container">
+                    <button class="edit-button">
+                        <i class="fas fa-pencil-square"></i> Registrar Alerta
+                    </button>
+                    <a href="proyectos.detalle.html">
+                        <button class="edit-button">
+                            Regresar
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="herramienta-monitoreo">Herramienta de monitoreo:</label>
+                        <select id="herramienta-monitoreo">
+                            <option value="">Selecciona una opción</option>
+                            <option value="herramienta1">FortiSIEM</option>
+                            <option value="herramienta2">PRTG Monitoring</option>
+                            <option value="herramienta3">VMWare VRealize</option>
+                            <option value="herramienta3">FortiGATE</option>
+                            <!-- Agrega más opciones según sea necesario -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre-alerta">Nombre de la alerta:</label>
+                        <input type="text" id="nombre-alerta">
+                    </div>
+                    <div class="form-group">
+                        <label for="criticidad">Criticidad:</label>
+                        <input type="text" id="criticidad">
+                    </div>
+                    <div class="form-group">
+                        <label for="medio-notificación">Medio de notificación:</label>
+                        <input type="text" id="medio-notificación">
+                    </div>
+                    <div class="form-group">
+                        <label for="horario">Horario:</label>
+                        <input type="text" id="horario">
+                    </div>
+                    <div class="form-group">
+                        <label for="grupo-escalacion">Asignar grupo de escalación:</label>
+                        <input type="text" id="grupo-escalacion">
+                    </div>
+                    <div class="form-group">
+                        <label for="descripción">Descripción:</label>
+                        <textarea id="descripción" rows="4" cols="50"></textarea>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Development of the common footer for the project -->
+    <footer class="mt-auto p-2" id="footer_common">
+        <div class="container">
+            <div class="col">
+                <p class="lead text-center" style="font-size: 1rem;">
+                    Derechos Reservados Gestor de alertas - Universidad Fidélitas &COPY; 2024
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
