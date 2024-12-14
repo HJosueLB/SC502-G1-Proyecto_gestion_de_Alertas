@@ -1,20 +1,22 @@
 <?php
+
+//The connection.php file is called to make the connection to the database
 session_start();
 include 'conexion.php';
 
-// Variable para manejar mensajes de error
+//Variable to handle error messages
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Limpiar y validar entrada
+    //The mail input is cleaned using a PHP function that filters out invalid characters in an email.
     $correo = filter_input(INPUT_POST, 'correo', FILTER_SANITIZE_EMAIL);
     $contraseña = $_POST['contraseña'];
 
-    // Validar que los campos no estén vacíos
+    //Validate that the fields are not empty
     if (empty($correo) || empty($contraseña)) {
         $error = "Por favor, complete todos los campos.";
     } else {
-        // Preparar consulta para buscar en empleados
+        //Perform the query to search in the empleado table
         $stmt = $conexion->prepare("
             SELECT idEmpleado AS id, contraseña, rol 
             FROM empleado 
@@ -24,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $resultado = $stmt->get_result();
 
-        // Si no se encuentra en empleados, buscar en clientes
+        //If not found in the empleado table, search in the cliente table
         if ($resultado->num_rows === 0) {
             $stmt = $conexion->prepare("
                 SELECT idCliente AS id, contraseña, rol 
@@ -39,17 +41,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($resultado->num_rows === 1) {
             $usuario = $resultado->fetch_assoc();
 
-            // Verificar contraseña (ajustar según tu método de almacenamiento)
+            //Check if the password matches the user's saved password in the DB 
             if ($contraseña === $usuario['contraseña']) {
-                // Regenerar ID de sesión para prevenir secuestro de sesión
+                //Regenerate session ID to prevent session hijacking using a PHP function
                 session_regenerate_id(true);
                 
-                // Guardar datos de sesión
+                //Save session data 
                 $_SESSION['id'] = $usuario['id'];
                 $_SESSION['rol'] = $usuario['rol'];
                 $_SESSION['correo'] = $correo;
                 
-                // Redirigir según el rol
+                //Redirect based on role
                 if ($usuario['rol'] == 'administrador') {
                     header('Location: common.php');
                 } elseif ($usuario['rol'] == 'cliente'){

@@ -7,8 +7,8 @@
     <title>Registrar nuevo proyecto</title>
 
     <!-- Link to CSS-->
-    <link rel="stylesheet" href="/assets/css/common.css">
-    <link rel="stylesheet" href="/assets/css/proyectos-registro_p1.css">
+    <link rel="stylesheet" href="/SC502-G1-Proyecto_gestion_de_Alertas/assets/css/common.css">
+    <link rel="stylesheet" href="/SC502-G1-Proyecto_gestion_de_Alertas/assets/css/proyectos-registro_p1.css">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -19,23 +19,22 @@
 </head>
 
 <body>
-
     <!-- Development of the common navbar for the project -->
     <nav class="navbar navbar-expand-lg" id="nav_common">
         <div class="container-fluid">
-            <a class="navbar-brand" href="common.html" id="nav_logoCommon">
-                <img src="/assets/media/logo.png" alt="Logo">
+            <a class="navbar-brand" href="common.php" id="nav_logoCommon">
+                <img src="/SC502-G1-Proyecto_gestion_de_Alertas/assets/media/logo.png" alt="Logo">
             </a>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="alerta-cliente.html">Alertas por cliente</a>
+                        <a class="nav-link" href="alerta-cliente.php">Alertas por cliente</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="notificaciones.html">Notificaciones</a>
+                        <a class="nav-link" href="notificaciones.php">Notificaciones</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="proyectos.html">Proyectos</a>
+                        <a class="nav-link" href="proyectos.php">Proyectos</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -50,7 +49,7 @@
                 </ul>
             </div>
             <div>
-                <a class="nav-link" href="#" id="nav_miperfil">Mi perfil</a>
+                <a class="nav-link" href="cerrar-sesion.php" id="nav_logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
@@ -63,10 +62,10 @@
             <div class="form-header">
                 <h2 class="form-title">Registrar nuevo proyecto:</h2>
                 <div class="button-container">
-                    <a href="proyectos-registro_p2.html">
+                    <a href="proyectos-registro_p2.php">
                     <button class="button">Guardar</button>
                     </a>
-                    <a href="proyectos.html">
+                    <a href="proyectos.php">
                         <button class="button">Regresar</button>
                     </a>
                 </div>

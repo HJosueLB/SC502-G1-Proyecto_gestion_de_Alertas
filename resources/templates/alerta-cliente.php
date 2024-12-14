@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+//Check if the user is authenticated
+if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
+    header("Location: login-page.php");
+    exit();
+}
+
+//Variable to control the visibility of elements
+$esAdmin = ($_SESSION['rol'] === 'administrador');
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -7,8 +20,8 @@
     <title>Página de Alerta</title>
 
     <!-- Link to CSS-->
-    <link rel="stylesheet" href="/assets/css/common.css">
-    <link rel="stylesheet" href="/assets/css/alerta-cliente.css">
+    <link rel="stylesheet" href="/SC502-G1-Proyecto_gestion_de_Alertas/assets/css/common.css">
+    <link rel="stylesheet" href="/SC502-G1-Proyecto_gestion_de_Alertas/assets/css/alerta-cliente.css">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -23,19 +36,19 @@
     <!-- Development of the common navbar for the project -->
     <nav class="navbar navbar-expand-lg" id="nav_common">
         <div class="container-fluid">
-            <a class="navbar-brand" href="common.html" id="nav_logoCommon">
-                <img src="/assets/media/logo.png" alt="Logo">
+            <a class="navbar-brand" href="common.php" id="nav_logoCommon">
+                <img src="/SC502-G1-Proyecto_gestion_de_Alertas/assets/media/logo.png" alt="Logo">
             </a>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="alerta-cliente.html">Alertas por cliente</a>
+                        <a class="nav-link" href="alerta-cliente.php">Alertas por cliente</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="notificaciones.html">Notificaciones</a>
+                        <a class="nav-link" href="notificaciones.php">Notificaciones</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="proyectos.html">Proyectos</a>
+                        <a class="nav-link" href="proyectos.php">Proyectos</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -51,7 +64,7 @@
                 </ul>
             </div>
             <div>
-                <a class="nav-link" href="#" id="nav_miperfil">Mi perfil</a>
+                <a class="nav-link" href="cerrar-sesion.php" id="nav_logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
@@ -110,21 +123,23 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
+                                <td>                                                       
                                     <div>
-                                        <a href="alerta-detalle.html"
+                                        <a href="alerta-detalle.php"
                                             class="d-flex flex-column align-items-center text-center no-link">
                                             <i class="fa-solid fa-up-right-from-square fa-2x icon-spacing"
                                                 style="color: #000000"></i>
                                             Abrir
                                         </a>
                                         <br>
-                                        <a href="notificaciones-registro.html" class="d-flex flex-column align-items-center text-center no-link">
+                                        <!--It is validated if the user is an administrator, if this is not the case the button will not be displayed.-->
+                                        <?php if ($esAdmin): ?>
+                                        <a href="notificaciones-registro.php" class="d-flex flex-column align-items-center text-center no-link">
                                             <i class="fa-solid fa-pen-to-square fa-2x icon-spacing"
                                                 style="color: #000000"></i>
                                             Registrar notificación
                                         </a>
-
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                                 <td>Brute Force Host Login Success</td>

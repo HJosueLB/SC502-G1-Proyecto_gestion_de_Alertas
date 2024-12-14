@@ -1,16 +1,3 @@
-<?php
-session_start();
-
-// Verificar si el usuario está autenticado
-if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
-    header("Location: login-page.php");
-    exit();
-}
-
-// Variable para controlar la visibilidad de elementos
-$esAdmin = ($_SESSION['rol'] === 'administrador');
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -27,29 +14,20 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
     <!-- Development of the common navbar for the project -->
     <nav class="navbar navbar-expand-lg" id="nav_common">
         <div class="container-fluid">
-            <a class="navbar-brand" href="common.html" id="nav_logoCommon">
+            <a class="navbar-brand" href="common.php" id="nav_logoCommon">
                 <img src="/SC502-G1-Proyecto_gestion_de_Alertas/assets/media/logo.png" alt="Logo">
             </a>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="alerta-cliente.html">Alertas por cliente</a>
+                        <a class="nav-link" href="alerta-cliente.php">Alertas por cliente</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="procedimientos.html">Alertas - procedimientos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="notificaciones.html">Notificaciones</a>
+                        <a class="nav-link" href="notificaciones.php">Notificaciones</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="proyectos.php">Proyectos</a>
                     </li>
-                    
-                    <?php if ($esAdmin): ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contactos-grupos.html">Contactos</a>
-                    </li>
-                    <?php endif; ?>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"

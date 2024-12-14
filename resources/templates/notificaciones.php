@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+//Check if the user is authenticated
+if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
+    header("Location: login-page.php");
+    exit();
+}
+
+//Variable to control the visibility of elements
+$esAdmin = ($_SESSION['rol'] === 'administrador');
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -7,8 +20,8 @@
     <title>Página de Alerta</title>
 
     <!-- Link to CSS-->
-    <link rel="stylesheet" href="/assets/css/common.css">
-    <link rel="stylesheet" href="/assets/css/proyectos.css">
+    <link rel="stylesheet" href="/SC502-G1-Proyecto_gestion_de_Alertas/assets/css/notificaciones.css">
+    <link rel="stylesheet" href="/SC502-G1-Proyecto_gestion_de_Alertas/assets/css/common.css">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -23,19 +36,19 @@
     <!-- Development of the common navbar for the project -->
     <nav class="navbar navbar-expand-lg" id="nav_common">
         <div class="container-fluid">
-            <a class="navbar-brand" href="common.html" id="nav_logoCommon">
-                <img src="/assets/media/logo.png" alt="Logo">
+            <a class="navbar-brand" href="common.php" id="nav_logoCommon">
+                <img src="/SC502-G1-Proyecto_gestion_de_Alertas/assets/media/logo.png" alt="Logo">
             </a>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="alerta-cliente.html">Alertas por cliente</a>
+                        <a class="nav-link" href="alerta-cliente.php">Alertas por cliente</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="notificaciones.html">Notificaciones</a>
+                        <a class="nav-link" href="notificaciones.php">Notificaciones</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="proyectos.html">Proyectos</a>
+                        <a class="nav-link" href="proyectos.php">Proyectos</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -50,7 +63,7 @@
                 </ul>
             </div>
             <div>
-                <a class="nav-link" href="#" id="nav_miperfil">Mi perfil</a>
+                <a class="nav-link" href="cerrar-sesion.php" id="nav_logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
@@ -67,19 +80,25 @@
                             <input type="text" class="form-control" placeholder="Buscar">
                         </div>
                         <div class="col-md-3">
+                            <button class="btn-search">
+                                <i class="bi bi-search"></i> Buscar
+                            </button>
                             <button class="btn-search ">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                                Buscar
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                                Actualizar
                             </button>
                         </div>
                         <div class="col-md-3"></div>
                         <div class="col-md-3">
-                            <a href="proyectos-registro_p1.html">
-                                <button class="btn-search ">
+                         <!--It is validated if the user is an administrator, if this is not the case the button will not be displayed.-->
+                        <?php if ($esAdmin): ?>
+                            <a href="notificaciones-registro.php">
+                                <button class="btn-search">
                                     <i class="fa-solid fa-pen-to-square fa-1x icon-spacing"></i>
-                                    Registrar nuevo proyecto
+                                    Registrar notificación
                                 </button>
-                            </a>
+                            </a>    
+                            <?php endif; ?>                        
                         </div>
                     </div>
                 </div>
@@ -92,27 +111,31 @@
                         <thead>
                             <tr>
                                 <th>Opciones</th>
-                                <th>Proyecto</th>
+                                <th>Código ID</th>
+                                <th>Marca temporal</th>
+                                <th>Analista</th>
                                 <th>Cliente</th>
-                                <th>Vendedor</th>
-                                <th>Gestor</th>
+                                <th>Alerta</th>
+                                <th>Descripción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <td>
-                                <div>
-                                    <a href="proyectos.detalle.html" class="d-flex flex-column align-items-center text-center no-link">
-                                        <i class="fa-solid fa-up-right-from-square fa-2x icon-spacing"></i>
-                                        Abrir
-                                    </a>
-                                    <br>
-                                </div>
-                            </td>
-                            <td>PRY-CEO-000342</td>
-                            <td>Ministerio de Educación Pública</td>
-                            <td>Carmen Fonseca Espinoza</td>
-                            <td>Esther Murillo Calderón<nav></nav>
-                            </td>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <a href="notificaciones-detalle.php" class="d-flex flex-column align-items-center text-center no-link">
+                                            <i class="fa-solid fa-up-right-from-square fa-2x icon-spacing"
+                                                style="color: #000000"></i>
+                                            Abrir
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>NOT-0000001</td>
+                                <td>17-11-2024 15:05</td>
+                                <td>Harlyn Josue Luna Brenes</td>
+                                <td>Ministerio de Educación Pública</td>
+                                <td>Brute Force Host Login Success</td>
+                                <td>MEP - FORTISIEM - Brute Force Host Login Success</td>
                             </tr>
                         </tbody>
                     </table>
@@ -138,5 +161,6 @@
         crossorigin="anonymous"></script>
 
 </body>
+
 
 </html>

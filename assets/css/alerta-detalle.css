@@ -35,13 +35,14 @@ button {
     border: none;
     cursor: pointer;
     color: black;
-    border-radius: 5px;
 }
 
 .button-back,
 .button-register,
 .button-copy {
     background-color: #ff8c00;
+    color: #000;
+    border-radius: 5px;
 }
 
 .alert-info,
