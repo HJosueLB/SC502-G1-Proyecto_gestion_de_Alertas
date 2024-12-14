@@ -8,7 +8,7 @@ CREATE SCHEMA GestorAlertas;
 
 -- Se crea usuario para utilizarse como medio de conexion con el sistema
 CREATE USER 'clienteGA'@'%' IDENTIFIED BY 'usuario_GA'; 
-GRANT ALL PRIVILEGES ON LightningTechnologies.* TO 'clienteGA'@'%'; 
+GRANT ALL PRIVILEGES ON GestorAlertas.* TO 'clienteGA'@'%'; 
 FLUSH PRIVILEGES;
 
 -- Tabla 'criticidad'
@@ -122,7 +122,7 @@ CREATE TABLE GestorAlertas.cliente (
 -- Insertar datos de tabla
 INSERT INTO GestorAlertas.cliente (nombre, correo, contraseña, rol)
 VALUES 
-('Jean Pool Pérez Carranza','jeanpoolperez@gmail.com', '12345qwer*', 'cliente',);
+('Jean Pool Pérez Carranza','jeanpoolperez@gmail.com', '12345qwer*', 'cliente');
 
 
 -- Tabla 'proyecto'
@@ -172,25 +172,6 @@ CREATE TABLE GestorAlertas.grupoEscalacion (
 INSERT INTO GestorAlertas.grupoEscalacion (idCliente, nombre, lider_nombre, lider_apellido, correo, numero_celular, numero_oficina)
 VALUES 
 (1, 'Infraestructura', 'Esteban', 'Campos Brenes', 'ecampos@mep.go.cr', '87852356', '78534587');
-
--- Tabla 'Alertas_procedimiento'
-CREATE TABLE GestorAlertas.alertas_procedimiento (
-    idAlerta INT NOT NULL AUTO_INCREMENT,
-    idCliente INT NOT NULL,
-    nombre  VARCHAR(100) NOT NULL,
-    descripcion VARCHAR(1000) NOT NULL,
-    idCriticidad INT NOT NULL,
-    procedimiento VARCHAR(1000) NOT NULL,
-    PRIMARY KEY (idAlerta),
-    FOREIGN KEY (idCriticidad) REFERENCES GestorAlertas.criticidad(idCriticidad) ON DELETE CASCADE,
-    FOREIGN KEY (idCliente) REFERENCES GestorAlertas.cliente(idCliente) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
-
--- Insertar datos de tabla
-INSERT INTO GestorAlertas.alertas_procedimiento (idCliente, nombre, descripcion, idCriticidad, procedimiento)
-VALUES 
-(1, 'Brute Force Host Login Success', 'Detecta una condición inusual en la que una fuente tiene fallas de autenticación seguidas de una autenticación exitosa en el mismo host en 15 minutos', 1, 
-'Al recibir una alerta de "Brute Force Host Login Success", primero verifica los registros de autenticación para confirmar que hubo múltiples intentos fallidos seguidos de un inicio de sesión exitoso. Identifica la IP atacante y el usuario afectado. Si la IP es sospechosa, bloquea temporalmente la conexión. Cambia la contraseña del usuario afectado para evitar accesos no autorizados y revisa el sistema en busca de cambios inusuales. Es recomendable activar la autenticación de dos factores (2FA) y limitar los intentos de inicio de sesión fallidos. Procede a notificar al cliente sobre el incidente y las acciones tomadas, y recomienda que se sigan estos pasos de seguridad para mitigar futuros riesgos.');
 
 -- Tabla 'Notificaciones'
 CREATE TABLE GestorAlertas.notificaciones (

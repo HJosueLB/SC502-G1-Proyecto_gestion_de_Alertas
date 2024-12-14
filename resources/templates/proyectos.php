@@ -45,16 +45,10 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
                         <a class="nav-link" href="alerta-cliente.html">Alertas por cliente</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="procedimientos.html">Alertas - procedimientos</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="notificaciones.html">Notificaciones</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="proyectos.html">Proyectos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contactos-grupos.html">Contactos</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -63,7 +57,6 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Administrar usuarios</a></li>
-                            <li><a class="dropdown-item" href="#">Administrar clientes</a></li>
                             <li><a class="dropdown-item" href="#">Administrar roles</a></li>
                         </ul>
                     </li>
