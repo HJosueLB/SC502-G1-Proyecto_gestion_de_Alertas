@@ -1,6 +1,8 @@
 .title {
     font-size: 1.5em;
     margin-bottom: 10px;
+    color: black;
+    font-weight: normal;
 }
 
 .buttons-container {
@@ -23,130 +25,107 @@ button {
     border: 0.5px solid #000000;
     cursor: pointer;
     color: black;
+    font-weight: normal;
     border-radius: 5px;
-
+    background-color: transparent;
 }
 
 .button-back,
 .button-register,
 .button-copy {
     background-color: #ff8c00;
-}
-
-.alert-info,
-.contact-info {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 1px;
-    background-color: #fff;
-    width: 100%;
-    /* 100% wide */
+    color: black;
+    font-weight: normal;
 }
 
 .alert-info {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    color: black;
+    font-weight: normal;
 }
 
 .alert-info h3,
 .contact-info h3 {
     margin-top: 0;
     padding-top: 0;
-}
-
-.criticality {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.criticality div {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    border: 1px solid #000;
-    /* opciotal border*/
-}
-
-.low {
-    background-color: green;
-    /* Low criticality Color */
-}
-
-.medium {
-    background-color: yellow;
-    /* Mid criticality Color */
-}
-
-.high {
-    background-color: red;
-    /* High criticality Color */
+    color: black;
+    font-weight: normal;
 }
 
 .description-box {
     background-color: #ffffff;
     padding: 20px;
-    /* more internal space */
     border-radius: 8px;
     border: 1px solid #ddd;
     margin-top: 20px;
-    /* Bigger Margin top*/
     min-height: 150px;
-    /* Minimum hight */
     height: 200px;
+    color: black;
+    font-weight: normal;
 }
 
 .contact-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-}
-
-.contact-table th,
-.contact-table td {
-    border: #ddd;
-    padding: 1px;
-    text-align: left;
-}
-
-.contact-table th {
-    background-color: #f2f2f2;
-}
-
-.button-icon {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+    color: black;
+    font-weight: normal;
 }
 
 .center {
     text-align: center;
+    color: black;
+    font-weight: normal;
 }
 
 .search-section {
-   
     padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+    font-weight: normal;
+}
+
+.search-section .form-label {
+    margin-bottom: 0;
+    color: black;
+    font-weight: normal;
+}
+
+.search-section input {
+    width: 100%;
+    color: black;
+    font-weight: normal;
+}
+
+.search-section .btn-register {
+    background-color: #ff8c00;
+    color: black;
+    font-weight: normal;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .table thead th {
     background-color: #ff8c00;
-    color: #000;
-}
-
-.btn-search {
-    background-color: #ff8c00;
-    color: #000;
-    border-radius: 5px;
-}
-
-.btn-search:hover {
-    background-color: #ff8c00;
-    color: white;
+    color: black;
+    font-weight: normal;
 }
 
 .no-link {
-    color: inherit;
+    color: black;
     text-decoration: none;
+    font-weight: normal;
+}
+
+button:hover {
+    background-color: #e07b00;
+    color: black;
+    transform: scale(1.05);
 }

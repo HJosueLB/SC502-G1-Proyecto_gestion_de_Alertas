@@ -2,181 +2,97 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    background-color: #f8f9fa;
 }
 
 .container {
+    max-width: 1000px;
+    margin: 30px auto;
     padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-}
-
-.title {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.buttons-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 20px;
-    gap: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .button-back-container {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
-button {
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    color: black;
-}
-
-.button-back,
-.button-register,
-.button-copy {
-    background-color: #ff8c00;
-    color: #000;
-    border-radius: 5px;
-}
-
-.alert-info,
-.contact-info {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 1px;
-    background-color: #fff;
-    width: 100%;
-    /* 100% wide */
-}
-
-.alert-info {
+.button-container {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    gap: 20px; 
+    margin: 20px 0; 
+    justify-content: flex-end;
 }
 
-.alert-details {
-    width: 55%;
-    /* wider */
-    min-height: 200px;
-    /* Minimun hight */
-}
-
-.contact-info {
-    width: 40%;
-    /*  wider */
-    min-height: 170px;
-    /* Minimun hight */
-    background-color: #ffffff;
-    padding: 100px;
-    /* more internal space */
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    align-self: flex-start;
-    /* alloew content to be always on top*/
+.button-back {
+    background-color: #ff8c00;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1em;
     text-align: center;
-    /* Centers the title*/
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.alert-info h3,
-.contact-info h3 {
-    margin-top: 0;
-    padding-top: 0;
+.button-back:hover {
+    background-color: #e07b00;
+    transform: scale(1.05);
+}
+
+
+.alert-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.alert-header h2 {
+    font-size: 2em;
+    color: #333;
 }
 
 .criticality {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    text-align: center;
+    font-weight: bold;
+    color: #555;
 }
 
-.criticality div {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    border: 1px solid #000;
-    /* opciotal border*/
-}
-
-.low {
-    background-color: rgb(0, 0, 0);
-    /* Low criticality Color */
-}
-
-.medium {
-    background-color: rgb(0, 0, 0);
-    /* Mid criticality Color */
-}
-
-.high {
-    background-color: red;
-    /* High criticality Color */
-}
-
-.description-box {
+.alert-card {
     background-color: #ffffff;
-    padding: 20px;
-    /* more internal space */
-    border-radius: 8px;
     border: 1px solid #ddd;
-    margin-top: 20px;
-    /* Bigger Margin top*/
-    min-height: 150px;
-    /* Minimum hight */
-    height: 200px;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .contact-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.contact-table th,
-.contact-table td {
-    border: #ddd;
-    padding: 1px;
-    text-align: left;
+    margin-bottom: 20px;
 }
 
 .contact-table th {
-    background-color: #f2f2f2;
-}
-
-.button-icon {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.center {
+    background-color: #ff8c00;
+    color: white;
     text-align: center;
+    padding: 10px;
 }
 
-.navbar {
-    background-color: #4a4a4a;
-    padding: 1em;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    /* Cambiado de center a space-between */
-    align-items: center;
+.contact-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
 }
 
-.navbar a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-.navbar .profile {
-    margin-left: auto;
-    /* Esto moverá "Mi perfil" al extremo derecho */
+.description-box {
+    background-color: #f9f9f9;
+    border-left: 5px solid #ff8c00;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
 }

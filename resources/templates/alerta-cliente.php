@@ -1,14 +1,44 @@
 <?php
 session_start();
 
-//Check if the user is authenticated
+// Check if the user is authenticated
 if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
     header("Location: login-page.php");
     exit();
 }
 
-//Variable to control the visibility of elements
+// Variable to control the visibility of elements
 $esAdmin = ($_SESSION['rol'] === 'administrador');
+
+// Include the database connection file
+require_once 'conexion.php'; // Adjust the path if needed
+
+// Validate the connection
+if (!isset($conexion)) {
+    die("Error: Database connection is not defined.");
+}
+
+// The procedure is called and executed
+function obtenerAlertasFiltradas($conexion) {
+    $sql = "SELECT * FROM vista_alertas_cliente";
+    $result = $conexion->query($sql);
+
+    if (!$result) {
+        error_log("SQL Query Error: " . $conexion->error);
+        return [];
+    }
+
+    $alertas = [];
+    while ($row = $result->fetch_assoc()) {
+        $alertas[] = $row;
+    }
+
+    return $alertas;
+}
+
+// Fetch alerts
+$alertas = obtenerAlertasFiltradas($conexion);
+
 ?>
 
 <!DOCTYPE html>
@@ -76,39 +106,27 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
             <!--Search-section bar -->
             <div class="search-section">
                 <div class="container">
-                    <div class="row g-3 align-items-end">
-                        <div class="col-md-3">
+                    <div class="row g-3 align-items-center justify-content-between">
+                        <div class="col-md-6">
                             <label class="form-label">Nombre de la alerta:</label>
-                            <input type="text" class="form-control" placeholder="Buscar">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                placeholder="Buscar por nombre de alerta"
+                                id="buscar-nombre-alerta"
+                                onkeyup="filtrarPorNombre(this.value)"
+                            >
                         </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Cliente:</label>
-                            <select class="form-select">
-                                <option value="" selected disabled>Elige el cliente a consultar</option>
-                                <option>Ministerio de Educación Pública</option>
-                                <option>Almacenes SIMAN S.A</option>
-                                <option>Universidad Latina de Costa Rica</option>
-                                <option>SONDA S.A</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Tipo de Monitoreo:</label>
-                            <select class="form-select">
-                                <option value="" selected disabled>Elige el servicio</option>
-                                <option>NOC - Network Operations Center</option>
-                                <option>SOC - Security Operations</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn-search">
-                                <i class="bi bi-search"></i> Buscar
+                        <div class="col-md-6 d-flex justify-content-end">
+                            <button class="btn-register" onclick="window.location.href='alerta-registrar.php';">
+                                Registrar Alerta
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tabla de Datos -->
+            <!-- Data Table -->
             <div class="container mt-4">
                 <div class="table-responsive">
                     <table class="table">
@@ -121,33 +139,22 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
                                 <th>Cliente</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>                                                       
-                                    <div>
-                                        <a href="alerta-detalle.php"
-                                            class="d-flex flex-column align-items-center text-center no-link">
-                                            <i class="fa-solid fa-up-right-from-square fa-2x icon-spacing"
-                                                style="color: #000000"></i>
+                        <tbody id="tabla-alertas">
+                            <?php foreach ($alertas as $alerta): ?>
+                                <tr>
+                                    <td>
+                                        <a href="alerta-detalle.php?id=<?php echo htmlspecialchars($alerta['ID_Alerta']); ?>"
+                                        class="d-flex flex-column align-items-center text-center no-link">
+                                            <i class="fa-solid fa-up-right-from-square fa-2x icon-spacing" style="color: #000000"></i>
                                             Abrir
                                         </a>
-                                        <br>
-                                        <!--It is validated if the user is an administrator, if this is not the case the button will not be displayed.-->
-                                        <?php if ($esAdmin): ?>
-                                        <a href="notificaciones-registro.php" class="d-flex flex-column align-items-center text-center no-link">
-                                            <i class="fa-solid fa-pen-to-square fa-2x icon-spacing"
-                                                style="color: #000000"></i>
-                                            Registrar notificación
-                                        </a>
-                                        <?php endif; ?>
-                                    </div>
-                                </td>
-                                <td>Brute Force Host Login Success</td>
-                                <td>Detecta una condición inusual en la que una fuente tiene fallas de autenticación
-                                    seguidas de una autenticación exitosa en el mismo host en 15 minutos</td>
-                                <td>Crítica</td>
-                                <td>Ministerio de Educación Pública</td>
-                            </tr>
+                                    </td>
+                                    <td><?php echo htmlspecialchars($alerta['Nombre_Alerta']); ?></td>
+                                    <td><?php echo htmlspecialchars($alerta['Descripcion']); ?></td>
+                                    <td><?php echo htmlspecialchars($alerta['Criticidad']); ?></td>
+                                    <td><?php echo htmlspecialchars($alerta['Nombre_Cliente']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -172,6 +179,18 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
         crossorigin="anonymous"></script>
 
 </body>
-
-
 </html>
+
+<script>
+function filtrarPorNombre(valor) {
+    const filas = document.querySelectorAll('#tabla-alertas tr');
+    filas.forEach(fila => {
+        const nombreAlerta = fila.querySelector('td:nth-child(2)').textContent.toLowerCase();
+        if (nombreAlerta.includes(valor.toLowerCase())) {
+            fila.style.display = '';
+        } else {
+            fila.style.display = 'none';
+        }
+    });
+}
+</script>

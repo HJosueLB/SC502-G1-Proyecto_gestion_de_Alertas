@@ -1,0 +1,35 @@
+#titleModule {
+    margin-top: 40px; 
+}
+
+#SaveButton {
+    background-color: #ff8c00;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#SaveButton:hover {
+    background-color: #e07b00;
+    transform: scale(1.05);
+}
+
+#CancelButton {
+    background-color: #6C757D;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none; 
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#CancelButton:hover {
+    background-color: #5A6268; 
+    transform: scale(1.05); 
+}
