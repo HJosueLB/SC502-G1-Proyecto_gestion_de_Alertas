@@ -90,22 +90,22 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
                         </div>
                         <div class="col-md-3"></div>
                         <div class="col-md-3">
-                         <!--It is validated if the user is an administrator, if this is not the case the button will not be displayed.-->
-                        <?php if ($esAdmin): ?>
-                            <a href="notificaciones-registro.php">
-                                <button class="btn-search">
-                                    <i class="fa-solid fa-pen-to-square fa-1x icon-spacing"></i>
-                                    Registrar notificación
-                                </button>
-                            </a>    
-                            <?php endif; ?>                        
+                            <!--It is validated if the user is an administrator, if this is not the case the button will not be displayed.-->
+                            <?php if ($esAdmin): ?>
+                                <a href="notificaciones-registro.php">
+                                    <button class="btn-search">
+                                        <i class="fa-solid fa-pen-to-square fa-1x icon-spacing"></i>
+                                        Registrar notificación
+                                    </button>
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Tabla de Datos -->
-            <div class="container mt-4">
+            <!--<div class="container mt-4">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -142,25 +142,81 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
                 </div>
             </div>
         </div>
-    </section>
+    </section>-->
 
-    <!-- Development of the common footer for the project -->
-    <footer class="mt-auto p-2" id="footer_common">
-        <div class="container">
-            <div class="col">
-                <p class="lead text-center" style="font-size: 1rem;">
-                    Derechos Reservados Gestor de alertas - Universidad Fidélitas &COPY; 2024
-                </p>
-            </div>
+            <?php
+            function generarTabla($datos)
+            {
+                // Table content
+                $html = '
+    <div class="container mt-4">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Opciones</th>
+                        <th>Código ID</th>
+                        <th>Marca temporal</th>
+                        <th>Analista</th>
+                        <th>Cliente</th>
+                        <th>Alerta</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+                // Iterates on data to create the rows
+                foreach ($datos as $fila) {
+                    $html .= '
+        <tr>
+            <td>
+                <div>
+                    <a href="notificaciones-detalle.php?id=' . htmlspecialchars($fila['id']) . '" class="d-flex flex-column align-items-center text-center no-link">
+                        <i class="fa-solid fa-up-right-from-square fa-2x icon-spacing" style="color: #000000"></i>
+                        Abrir
+                    </a>
+                </div>
+            </td>
+            <td>' . htmlspecialchars($fila['codigo_id']) . '</td>
+            <td>' . htmlspecialchars($fila['marca_temporal']) . '</td>
+            <td>' . htmlspecialchars($fila['analista']) . '</td>
+            <td>' . htmlspecialchars($fila['cliente']) . '</td>
+            <td>' . htmlspecialchars($fila['alerta']) . '</td>
+            <td>' . htmlspecialchars($fila['descripcion']) . '</td>
+        </tr>';
+                }
+
+                // Table closes
+                $html .= '
+                </tbody>
+            </table>
         </div>
-    </footer>
+    </div>';
 
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+                return $html;
+
+                echo generarTabla($datosEjemplo);
+            };
+            ?>
+
+            <!-- Project's common footer development-->
+            <footer class="mt-auto p-2" id="footer_common">
+                <div class="container">
+                    <div class="col">
+                        <p class="lead text-center" style="font-size: 1rem;">
+                            Derechos Reservados Gestor de alertas - Universidad Fidélitas &COPY; 2024
+                        </p>
+                    </div>
+                </div>
+            </footer>
+
+            <!-- Bootstrap -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+                crossorigin="anonymous"></script>
 
 </body>
+
 
 
 </html>

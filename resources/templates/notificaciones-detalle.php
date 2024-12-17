@@ -1,3 +1,46 @@
+<?php
+// Database connection
+$conexion = new mysqli('localhost', 'root', '', 'gestoralertas');
+if ($conexion->connect_error) {
+    die("Connection error: " . $conexion->connect_error);
+}
+
+// Function to get dropdown options
+function obtenerOpcionesDropdown($conexion, $tableName, $idField, $displayField) {
+    $stmt = $conexion->prepare("SELECT $idField, $displayField FROM $tableName");
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $options = [];
+    while ($row = $result->fetch_assoc()) {
+        $options[] = $row;
+    }
+    return $options;
+}
+
+// Retrieve options for dropdowns
+$alertas = obtenerOpcionesDropdown($conexion, 'diccionarioAlertas', 'id_AlertaDiccionario', 'nombre');
+$medios = obtenerOpcionesDropdown($conexion, 'medioNotificacion', 'id_Medio', 'nombreMedio');
+$clientes = obtenerOpcionesDropdown($conexion, 'proyectos', 'id_Proyecto', 'nombreCliente');
+
+// Form handling
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $idAlerta = $_POST['alerta'];
+    $idMedio = $_POST['medio'];
+    $idCliente = $_POST['cliente'];
+    $mensaje = "Notification for the selected alert";
+
+    // Call stored procedure to register notification
+    $stmt = $conexion->prepare("CALL P_RegistrarNotificacion(?, ?, 'Sent')");
+    $stmt->bind_param('is', $idAlerta, $mensaje);
+    if ($stmt->execute()) {
+        $success = "Notification successfully registered.";
+    } else {
+        $error = "Error registering notification: " . $conexion->error;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
