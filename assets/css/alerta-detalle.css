@@ -6,12 +6,7 @@ body {
 }
 
 .container {
-    max-width: 1000px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
 .button-back-container {
@@ -29,11 +24,10 @@ body {
 
 .button-back {
     background-color: #ff8c00;
-    color: white;
+    color: black;
     padding: 12px 25px;
     border: none;
     border-radius: 5px;
-    font-weight: bold;
     font-size: 1em;
     text-align: center;
     cursor: pointer;
