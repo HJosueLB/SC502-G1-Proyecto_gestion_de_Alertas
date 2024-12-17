@@ -1,19 +1,22 @@
 <?php
 session_start();
-
-//Check if the user is authenticated
+// Verificar autenticación del usuario
 if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
     header("Location: login-page.php");
     exit();
 }
-
-//Variable to control the visibility of elements
+// Control de visibilidad de elementos
 $esAdmin = ($_SESSION['rol'] === 'administrador');
+// Conexión a la base de datos
+require_once 'conexion.php';
+// Consulta a la base de datos para obtener los proyectos
+$resultado = $conexion->query("SELECT p.id_Proyecto, p.nombre_proyecto, p.nombreCliente, 
+                                v.nombre_vendedor, p.gestor_contrato
+                              FROM proyectos p
+                              JOIN vendedor v ON p.vendedor_id = v.vendedor_id");
+$proyectos = $resultado->fetch_all(MYSQLI_ASSOC);
+
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,8 +35,8 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
 </head>
 
 <body>
-    <!-- Development of the common navbar for the project -->
-    <nav class="navbar navbar-expand-lg" id="nav_common">
+<!-- Development of the common navbar for the project -->
+<nav class="navbar navbar-expand-lg" id="nav_common">
         <div class="container-fluid">
             <a class="navbar-brand" href="common.php" id="nav_logoCommon">
                 <img src="/SC502-G1-Proyecto_gestion_de_Alertas/assets/media/logo.png" alt="Logo">
@@ -60,7 +63,7 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
                         </ul>
                     </li>
                 </ul>
-            </div>
+                </div>
             <div>
                 <a class="nav-link" href="cerrar-sesion.php" id="nav_logout">Cerrar Sesión</a>
             </div>
@@ -68,39 +71,31 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
     </nav>
 
     <section>
-        <!-- Container -->
+        <!-- Contenedor de la búsqueda -->
         <div class="container">
-
-            <!--Search-section bar -->
             <div class="search-section">
-                <div class="container">
-                    <div class="row g-3 align-items-end">
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder="Buscar">
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn-search ">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                                Buscar
-                            </button>
-                        </div>
-                        <!--It is validated if the user is an administrator, if this is not the case the button will not be displayed.-->
-                        <?php if ($esAdmin): ?>
-                        <div class="col-md-3"></div>
-                        <div class="col-md-3">
-                            <a href="proyectos-registro_p1.php">
-                                <button class="btn-search ">
-                                    <i class="fa-solid fa-pen-to-square fa-1x icon-spacing"></i>
-                                    Registrar nuevo proyecto
-                                </button>
-                            </a>
-                        </div>
-                        <?php endif; ?>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="Buscar">
                     </div>
+                    <div class="col-md-3">
+                        <button class="btn-search">
+                            <i class="fa-solid fa-magnifying-glass"></i> Buscar
+                        </button>
+                    </div>
+                    <?php if ($esAdmin): ?>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                        <a href="proyectos.registro.php">
+                            <button class="btn-search">
+                                <i class="fa-solid fa-pen-to-square"></i> Registrar nuevo proyecto
+                            </button>
+                        </a>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
-
-            <!-- Tabla de Datos -->
+            <!-- Tabla de proyectos dinámicos -->
             <div class="container mt-4">
                 <div class="table-responsive">
                     <table class="table">
@@ -114,28 +109,25 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
                             </tr>
                         </thead>
                         <tbody>
-                            <td>
-                                <div>
-                                    <a href="proyectos.detalle.php" class="d-flex flex-column align-items-center text-center no-link">
-                                        <i class="fa-solid fa-up-right-from-square fa-2x icon-spacing"></i>
-                                        Abrir
+                            <?php foreach ($proyectos as $proyecto): ?>
+                            <tr>
+                                <td>
+                                    <a href="proyectos.detalle.php?id=<?= $proyecto['id_Proyecto'] ?>" class="text-center no-link">
+                                        <i class="fa-solid fa-up-right-from-square fa-2x"></i> Abrir
                                     </a>
-                                    <br>
-                                </div>
-                            </td>
-                            <td>PRY-CEO-000342</td>
-                            <td>Ministerio de Educación Pública</td>
-                            <td>Carmen Fonseca Espinoza</td>
-                            <td>Esther Murillo Calderón<nav></nav>
-                            </td>
+                                </td>
+                                <td><?= htmlspecialchars($proyecto['nombre_proyecto']) ?></td>
+                                <td><?= htmlspecialchars($proyecto['nombreCliente']) ?></td>
+                                <td><?= htmlspecialchars($proyecto['nombre_vendedor']) ?></td>
+                                <td><?= htmlspecialchars($proyecto['gestor_contrato']) ?></td>
                             </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- Development of the common footer for the project -->
     <footer class="mt-auto p-2" id="footer_common">
         <div class="container">
