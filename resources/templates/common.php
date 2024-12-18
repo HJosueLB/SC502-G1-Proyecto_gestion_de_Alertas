@@ -1,3 +1,25 @@
+<?php
+session_start();
+
+// Check if the user is authenticated
+if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
+    header("Location: login-page.php");
+    exit();
+}
+
+// Include the database connection file
+require_once 'conexion.php';  // Adjust the path if needed
+
+// Validate the connection
+if (!isset($conexion)) {
+    die("Error: Database connection is not defined.");
+}
+
+// Variable to control the visibility of elements
+$esAdmin = ($_SESSION['rol'] === 'administrador');
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -25,17 +47,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="notificaciones.php">Notificaciones</a>
                     </li>
+                    <?php if ($esAdmin): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="proyectos.php">Proyectos</a>
                     </li>
-
-                                        <?php if ($esAdmin): ?>
+                    <?php endif; ?>
+                    <?php if ($esAdmin): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Administración
                         </a>
-                        
+        
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Administrar usuarios</a></li>
                             <li><a class="dropdown-item" href="#">Administrar clientes</a></li>
