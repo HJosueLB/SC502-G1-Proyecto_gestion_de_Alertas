@@ -8,6 +8,7 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
 // Control de visibilidad de elementos
 $esAdmin = ($_SESSION['rol'] === 'administrador');
 // Conexión a la base de datos
+
 require_once 'conexion.php';
 // Consulta a la base de datos para obtener los proyectos
 $resultado = $conexion->query("SELECT p.id_Proyecto, p.nombre_proyecto, p.nombreCliente, 

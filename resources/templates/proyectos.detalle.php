@@ -9,6 +9,9 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
 // Conexión a la base de datos
 require_once 'conexion.php';
 
+// Variable to control the visibility of elements
+$esAdmin = ($_SESSION['rol'] === 'administrador');
+
 // Obtener el ID del proyecto desde la URL
 if (isset($_GET['id'])) {
     $id_proyecto = $_GET['id'];

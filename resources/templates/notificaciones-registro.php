@@ -8,6 +8,9 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
     exit();
 }
 
+// Variable to control the visibility of elements
+$esAdmin = ($_SESSION['rol'] === 'administrador');
+
 // Function to get options from a table
 function obtenerOpciones($conexion, $tabla, $id, $nombre) {
     $query = "SELECT $id, $nombre FROM $tabla";

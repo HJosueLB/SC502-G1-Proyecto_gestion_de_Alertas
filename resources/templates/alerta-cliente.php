@@ -80,7 +80,7 @@ $alertas = obtenerAlertasFiltradas($conexion);
                     <?php if ($esAdmin): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="proyectos.php">Proyectos</a>
-                    </li>}
+                    </li>
                     <?php endif; ?>
                     <?php if ($esAdmin): ?>
                     <li class="nav-item dropdown">

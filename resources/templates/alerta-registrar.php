@@ -10,6 +10,9 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
 // Include the database connection file
 require_once 'conexion.php';  // Adjust the path if needed
 
+// Variable to control the visibility of elements
+$esAdmin = ($_SESSION['rol'] === 'administrador');
+
 // Validate the connection
 if (!isset($conexion)) {
     die("Error: Database connection is not defined.");

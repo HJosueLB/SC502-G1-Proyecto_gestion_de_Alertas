@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+// Variable to control the visibility of elements
+$esAdmin = ($_SESSION['rol'] === 'administrador');
+
+
 // Check if the user is authenticated
 if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
     header("Location: login-page.php");
