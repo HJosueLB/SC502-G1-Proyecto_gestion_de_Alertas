@@ -110,12 +110,9 @@ INSERT INTO GestorAlertas.cliente (nombre, correo, contraseña, rol)
 VALUES 
 ('Jean Pool Pérez Carranza','jeanpoolperez@gmail.com', '12345qwer*', 'cliente');
 
-
-
-------------------------------------------
+-- -----------------------------------------------------------------------
 -- MODULOS DE ALERTAS
-------------------------------------------
-
+-- -----------------------------------------------------------------------
 
 -- TABLA DE PROYECTOS
 CREATE TABLE gestoralertas.proyectos (
@@ -210,10 +207,10 @@ VALUES
 (1, 1, 1, 'Detecta una condición inusual en la que una fuente tiene fallas de autenticación seguidas de una autenticación exitosa en el mismo host en 15 minutos', 1, 1),
 (2, 1, 1, 'Se detecta una desconexión del servidor mediante el sensor de ping. El evento ocurrió dentro de un intervalo de 10 minutos.', 1, 1);
 
+-- PROCEDIMIENTO ALMACENADO PARA OBTENER LA ALERTA POR ID
+
 USE gestoralertas;
 
-
--- PROCEDIMIENTO ALMACENADO PARA OBTENER LA ALERTA POR ID
 DELIMITER $$
 
 CREATE PROCEDURE P_ObtenerAlerta(IN p_idAlerta INT)
@@ -241,7 +238,7 @@ BEGIN
         ac.id_Alerta = p_idAlerta;
 END$$
 
--- PROCEDIMIENTO ALMACENADO PARA OBTENER LA ALERTA POR ID
+DELIMITER ;
 
 -- VISTA PARA VISUALIZAR COMO TABLA LAS ALERTAS
 CREATE VIEW vista_alertas_cliente AS
@@ -260,26 +257,6 @@ INNER JOIN gestoralertas.criticidad c
 INNER JOIN gestoralertas.proyectos p 
     ON ac.id_Proyecto = p.id_Proyecto;
     
-    
--- VISTA PARA VISUALIZAR vista_notificaciones
-CREATE VIEW vista_notificaciones AS
-SELECT 
-    n.codigo_id AS Codigo_ID,
-    n.marca_temporal AS Fecha_Incidencia,
-    n.analista AS Analista,
-    p.nombreCliente AS Cliente,
-    da.nombre AS Alerta
-FROM 
-    gestoralertas.notificaciones n
-INNER JOIN gestoralertas.alertasCliente ac 
-    ON n.codigo_id = ac.codigoAlertaCliente
-INNER JOIN gestoralertas.diccionarioAlertas da 
-    ON ac.id_AlertaDiccionario = da.id_AlertaDiccionario
-INNER JOIN gestoralertas.proyectos p 
-    ON ac.id_Proyecto = p.id_Proyecto;
-
-
-
 -- PROCEDIMIENTO ALMACENADO PARA ACTUALIZAR LA ALERTA POR ID
 DELIMITER $$
 
@@ -317,9 +294,9 @@ END$$
 
 DELIMITER ;
 
+-- PROCEDIMIENTO ALMACENADO PARA REGISTRAR CLIENTES
 DELIMITER $$
 
--- PROCEDIMIENTO ALMACENADO PARA REGISTRAR CLIENTES
 CREATE PROCEDURE P_RegistrarAlertaCliente(
     IN p_id_AlertaDiccionario INT,
     IN p_id_Criticidad INT,
@@ -358,9 +335,172 @@ BEGIN
     FROM diccionarioAlertas;
 END $$
 
+-- -------------------------------------------------------------------------
+-- MODULO PROYECTOS
+-- -----------------------------------------------------------------------
+
 DELIMITER ;
 
--- alert tabñe
+USE gestoralertas;
+
+CREATE TABLE vendedor( 
+vendedor_id INT AUTO_INCREMENT PRIMARY KEY, 
+nombre_vendedor VARCHAR(255) NOT NULL, 
+activo BOOLEAN DEFAULT 1 
+);
+
+INSERT INTO vendedor (nombre_vendedor, activo) VALUES ('Juan Pérez', 1);
+INSERT INTO vendedor (nombre_vendedor, activo) VALUES ('Ana Gómez', 1);
+INSERT INTO vendedor (nombre_vendedor, activo) VALUES ('Carlos Rodríguez', 1);
+
+
+ALTER TABLE proyectos
+ADD COLUMN nombre_proyecto VARCHAR(255),
+ADD COLUMN fecha_inicio DATE NULL AFTER nombre_proyecto,
+ADD COLUMN fecha_fin DATE NULL AFTER fecha_inicio,
+ADD COLUMN tipo_contrato VARCHAR(100) NULL AFTER fecha_fin,
+ADD COLUMN gestor_contrato VARCHAR(255) NULL AFTER tipo_contrato,
+ADD COLUMN cobros_mensuales DECIMAL(10,2) NULL AFTER gestor_contrato,
+ADD COLUMN vendedor_id INT NULL AFTER cobros_mensuales,
+ADD COLUMN idUnidadNegocio INT NULL AFTER vendedor_id,
+ADD COLUMN id_servicio INT NULL AFTER idUnidadNegocio;
+
+ALTER TABLE proyectos
+ADD CONSTRAINT fk_vendedor
+    FOREIGN KEY (vendedor_id) REFERENCES vendedor(vendedor_id),
+ADD CONSTRAINT fk_unidadnegocio
+    FOREIGN KEY (idUnidadNegocio) REFERENCES unidadnegocio(idUnidadNegocio),
+ADD CONSTRAINT fk_servicio
+    FOREIGN KEY (id_servicio) REFERENCES servicio(id_servicio);
+
+CREATE OR REPLACE VIEW vw_clientes AS
+SELECT idCliente, nombre
+FROM cliente;
+
+CREATE OR REPLACE VIEW vw_unidades_negocio AS
+SELECT idUnidadNegocio, nombre
+FROM unidadnegocio;
+
+
+CREATE OR REPLACE VIEW vw_servicios AS
+SELECT id_servicio, nombre
+FROM servicio;
+
+
+CREATE OR REPLACE VIEW vw_vendedores AS
+SELECT vendedor_id, nombre_vendedor
+FROM vendedor;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_agregar_proyecto(
+    IN p_nombre_proyecto VARCHAR(255),
+    IN p_fecha_inicio DATE,
+    IN p_fecha_fin DATE,
+    IN p_tipo_contrato VARCHAR(100),
+    IN p_gestor_contrato VARCHAR(255),
+    IN p_cobros_mensuales DECIMAL(10,2),
+    IN p_vendedor_id INT,
+    IN p_idUnidadNegocio INT,
+    IN p_id_servicio INT,
+    IN p_nombreCliente VARCHAR(255)
+)
+BEGIN
+    INSERT INTO proyectos (
+        nombre_proyecto,
+        fecha_inicio,
+        fecha_fin,
+        tipo_contrato,
+        gestor_contrato,
+        cobros_mensuales,
+        vendedor_id,
+        idUnidadNegocio,
+        id_servicio,
+        nombreCliente
+    )
+    VALUES (
+        p_nombre_proyecto,
+        p_fecha_inicio,
+        p_fecha_fin,
+        p_tipo_contrato,
+        p_gestor_contrato,
+        p_cobros_mensuales,
+        p_vendedor_id,
+        p_idUnidadNegocio,
+        p_id_servicio,
+        p_nombreCliente
+    );
+END$$
+
+DELIMITER ;
+
+CREATE OR REPLACE VIEW vista_proyectos_detalle AS
+SELECT
+	p.id_Proyecto AS ID,
+	p.nombre_proyecto AS NombreProyecto,
+	p.fecha_inicio AS FechaInicio,
+	p.fecha_fin AS FechaFin,
+	p.tipo_contrato AS TipoContrato,
+	v.nombre_vendedor AS Vendedor,
+	p.gestor_contrato AS GestorContrato,
+	u.nombre AS UnidadNegocio,
+	p.cobros_mensuales AS CobrosMensuales,
+	s.nombre AS Servicio
+FROM
+	proyectos p 
+LEFT JOIN vendedor v ON p.vendedor_id = v.vendedor_id
+LEFT JOIN unidadnegocio u ON p.idUnidadNegocio = u.idUnidadNegocio 
+LEFT JOIN servicio s ON p.id_servicio = s.id_servicio;
+
+
+DELIMITER $$ 
+CREATE PROCEDURE editar_proyecto(
+	IN p_id_Proyecto INT, 
+	IN p_nombre_proyecto VARCHAR(255), 
+	IN p_nombreCliente VARCHAR(255), 
+	IN p_vendedor_id INT, 
+	IN p_gestor_contrato VARCHAR(255), 
+	IN p_fecha_inicio DATE, 
+	IN p_fecha_fin DATE, 
+	IN p_tipo_contrato VARCHAR(255), 
+	IN p_idUnidadNegocio VARCHAR(255), 
+	IN p_cobros_mensuales DECIMAL(10, 2), 
+	IN p_id_servicio VARCHAR(255) 
+) 
+BEGIN
+    UPDATE proyectos
+    SET nombre_proyecto = p_nombre_proyecto,
+        nombreCliente = p_nombreCliente,
+        vendedor_id = p_vendedor_id,
+        gestor_contrato = p_gestor_contrato,
+        fecha_inicio = p_fecha_inicio,
+        fecha_fin = p_fecha_fin,
+        tipo_contrato = p_tipo_contrato,
+        idUnidadNegocio = p_idUnidadNegocio,
+        cobros_mensuales = p_cobros_mensuales,
+         id_servicio = p_id_servicio
+    WHERE id_Proyecto = p_id_Proyecto;
+END$$ 
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE eliminar_proyecto(
+    IN p_id_Proyecto INT
+)
+BEGIN
+    DELETE FROM proyectos WHERE id_Proyecto = p_id_Proyecto;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------------------------
+-- MODULOS DE NOTIFICACIONES
+-- -----------------------------------------------------------------------
+
+-- CREACION DE TABLA NOTIFICACIONES
 CREATE TABLE gestoralertas.notificaciones (
 	id_notificacion INT auto_increment primary key,
     id_Alerta INT NOT NULL,
@@ -373,129 +513,68 @@ CREATE TABLE gestoralertas.notificaciones (
     dispositivo VARCHAR(30),
     contactoPersonanotificada VARCHAR(30),
     descripcion varchar(500), 
-    tiqueteSpeede varchar(500)
-
-foreign key (id_Alerta) references gestoralertas.diccionarioalertas(id_AlertaDiccionario),
-foreign key (id_Medio) references gestoralertas.medionotificacion(id_Medio),
-foreign key (id_cliente) references gestoralertas.proyectos(id_Proyecto)   
+    tiqueteSpeede varchar(500)   
 );
 
+ALTER TABLE gestoralertas.notificaciones
+ADD CONSTRAINT fk_id_Alerta FOREIGN KEY (id_Alerta) REFERENCES  gestoralertas.diccionarioalertas(id_AlertaDiccionario),
+ADD CONSTRAINT fk_id_Medio FOREIGN KEY (id_Medio) REFERENCES gestoralertas.medionotificacion(id_Medio),
+ADD CONSTRAINT fk_id_cliente FOREIGN KEY (id_cliente) REFERENCES gestoralertas.proyectos(id_Proyecto);
 
--- Notifications table
- USE GestorAlertas; 
-
-DELIMITER $$
-CREATE TABLE alertasCliente (
-    id_Alerta INT AUTO_INCREMENT PRIMARY KEY,
-    id_AlertaDiccionario INT NOT NULL,
-    id_Criticidad INT NOT NULL,
-    id_Proyecto INT NOT NULL,
-    id_Medio INT NOT NULL,
-    descripcion VARCHAR(255) NOT NULL,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-DELIMITER $$
-
-CREATE PROCEDURE P_CRUD_Notifications(
-    IN p_action VARCHAR(10),         -- Acción a realizar: 'CREATE', 'READ', 'UPDATE', 'DELETE'
-    IN p_id_notification INT,        -- ID de la notificación (requerido para UPDATE y DELETE)
-    IN p_id_alert INT,               -- ID de la alerta
-    IN p_id_client INT,              -- ID del cliente
-    IN p_id_communication_channel INT, -- ID del canal de comunicación
-    IN p_description TEXT,           -- Descripción de la notificación
-    IN p_notification_date DATETIME, -- Fecha de la notificación
-    IN p_incident_date DATETIME,     -- Fecha del incidente
-    IN p_comments TEXT               -- Comentarios adicionales
-)
-BEGIN
-    -- Use CASE para el manejo de acciones
-    CASE
-        -- Operación CREATE
-        WHEN p_action = 'CREATE' THEN
-            INSERT INTO notifications (
-                id_alert, id_client, id_communication_channel, description, 
-                notification_date, incident_date, comments
-            ) VALUES (
-                p_id_alert, p_id_client, p_id_communication_channel, p_description, 
-                p_notification_date, p_incident_date, p_comments
-            );
-
-        -- Operación READ
-        WHEN p_action = 'READ' THEN
-            IF p_id_notification IS NULL THEN
-                SELECT * FROM notifications; -- Recuperar todas las notificaciones
-            ELSE
-                SELECT * FROM notifications WHERE id_notification = p_id_notification; -- Recuperar una notificación específica
-            END IF;
-
-        -- Operación UPDATE
-        WHEN p_action = 'UPDATE' THEN
-            UPDATE notifications
-            SET 
-                id_alert = p_id_alert,
-                id_client = p_id_client,
-                id_communication_channel = p_id_communication_channel,
-                description = p_description,
-                notification_date = p_notification_date,
-                incident_date = p_incident_date,
-                comments = p_comments
-            WHERE id_notification = p_id_notification;
-
-        -- Operación DELETE
-        WHEN p_action = 'DELETE' THEN
-            DELETE FROM notifications
-            WHERE id_notification = p_id_notification;
-
-        ELSE
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Acción inválida especificada para P_CRUD_Notifications';
-    END CASE;
-END $$
-
-DELIMITER ;
-
-DELIMITER $$
-
-CREATE PROCEDURE sp_insertarNotificacion (
-    IN p_codigo_id VARCHAR(20),
-    IN p_marca_temporal DATETIME,
-    IN p_analista VARCHAR(100),
-    IN p_cliente VARCHAR(100),
-    IN p_alerta VARCHAR(100),
-    IN p_descripcion TEXT,
-    IN p_id_medio INT
+--PROCEDIMIENTO PARA AGREGAR NOTIFICACION
+DELIMITER //
+CREATE PROCEDURE sp_agregar_notificacion(
+    IN p_id_Alerta INT,
+    IN p_id_Medio INT,
+    IN p_id_cliente INT,
+    IN p_comentarios VARCHAR(255),
+    IN p_analista VARCHAR(30),
+    IN p_dispositivo VARCHAR(30),
+    IN p_contactoPersonaNotificada VARCHAR(30),
+    IN p_descripcion VARCHAR(500),
+    IN p_tiqueteSpeede VARCHAR(500)
 )
 BEGIN
     INSERT INTO gestoralertas.notificaciones (
-        codigo_id, 
-        marca_temporal, 
-        analista, 
-        cliente, 
-        alerta, 
-        descripcion, 
-        id_medio
-    )
-    VALUES (
-        p_codigo_id, 
-        p_marca_temporal, 
-        p_analista, 
-        p_cliente, 
-        p_alerta, 
-        p_descripcion, 
-        p_id_medio
+        id_Alerta, id_Medio, id_cliente, comentarios, analista, dispositivo,
+        contactoPersonanotificada, descripcion, tiqueteSpeede
+    ) VALUES (
+        p_id_Alerta, p_id_Medio, p_id_cliente, p_comentarios, p_analista, p_dispositivo,
+        p_contactoPersonaNotificada, p_descripcion, p_tiqueteSpeede
     );
 END //
-
 DELIMITER ;
 
-CALL sp_insertarNotificacion(
-    'NOT-0000001', 
-    '2024-12-15 10:30:00', 
-    'Harlyn Josue Luna Brenes', 
-    'Ministerio de Educación Pública', 
-    'Brute Force Host Login Success', 
-    'MEP - FORTISIEM - Brute Force Host Login Success', 
-    1
-);
+--PROCEDIMIENTO PARA EDITAR
+DELIMITER //
+CREATE PROCEDURE sp_editar_notificacion(
+    IN p_id_notificacion INT,
+    IN p_comentarios VARCHAR(255),
+    IN p_analista VARCHAR(30),
+    IN p_dispositivo VARCHAR(30),
+    IN p_contactoPersonaNotificada VARCHAR(30),
+    IN p_descripcion VARCHAR(500),
+    IN p_tiqueteSpeede VARCHAR(500)
+)
+BEGIN
+    UPDATE gestoralertas.notificaciones
+    SET comentarios = p_comentarios,
+        analista = p_analista,
+        dispositivo = p_dispositivo,
+        contactoPersonanotificada = p_contactoPersonaNotificada,
+        descripcion = p_descripcion,
+        tiqueteSpeede = p_tiqueteSpeede
+    WHERE id_notificacion = p_id_notificacion;
+END //
+DELIMITER ;
+
+--PROCEDIMIENTO PARA ELIMINAR
+DELIMITER //
+CREATE PROCEDURE sp_eliminar_notificacion(
+    IN p_id_notificacion INT
+)
+BEGIN
+    DELETE FROM gestoralertas.notificaciones WHERE id_notificacion = p_id_notificacion;
+END //
+DELIMITER ;
+

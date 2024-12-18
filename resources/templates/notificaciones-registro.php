@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'conexion.php';
 
 // Check if the user is authenticated
 if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
@@ -7,21 +8,15 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
     exit();
 }
 
-// Include the database connection file
-require_once 'conexion.php';  // Adjust the path if needed
-
-// Validate the connection
-if (!isset($conexion)) {
-    die("Error: Database connection is not defined.");
-}
-
-// The procedure is called and executed
-function obtenerOpcionesDropdown($conexion, $tableName)
-{
-    $stmt = $conexion->prepare("SELECT * FROM $tableName");
+// Function to get options from a table
+function obtenerOpciones($conexion, $tabla, $id, $nombre) {
+    $query = "SELECT $id, $nombre FROM $tabla";
+    $stmt = $conexion->prepare($query);
+    if (!$stmt) {
+        die("Error en la consulta: " . $conexion->error . " - Consulta: $query");
+    }
     $stmt->execute();
     $result = $stmt->get_result();
-
     $options = [];
     while ($row = $result->fetch_assoc()) {
         $options[] = $row;
@@ -29,31 +24,37 @@ function obtenerOpcionesDropdown($conexion, $tableName)
     return $options;
 }
 
-
-
-
-// The procedure is called and executed
-function obtenerDiccionarioAlertas($conexion)
-{
-    $stmt = $conexion->prepare("CALL P_ObtenerDiccionarioAlertas()");
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $options = [];
-    if ($result) {
-        while ($row = $result->fetch_assoc()) {
-            $options[] = $row;
-        }
-    }
-    return $options;
-}
-
-$alertasDiccionario = obtenerDiccionarioAlertas($conexion);
-$medios = obtenerOpcionesDropdown($conexion, 'medioNotificacion');
-$clientes = obtenerOpcionesDropdown($conexion, 'proyectos');
+// Get options for dropdowns
+$alertas = obtenerOpciones($conexion, 'gestoralertas.diccionarioalertas', 'id_AlertaDiccionario', 'nombre');
+$clientes = obtenerOpciones($conexion, 'gestoralertas.proyectos', 'id_Proyecto', 'nombreCliente');
+$medios = obtenerOpciones($conexion, 'gestoralertas.medioNotificacion', 'id_Medio', 'nombre'); // Corregido aquí
 
 $successMessage = $errorMessage = '';
+
+// Process the form
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id_Alerta = $_POST['id_Alerta'];
+    $id_cliente = $_POST['id_cliente'];
+    $id_Medio = $_POST['id_Medio'];
+    $comentarios = $_POST['comentarios'];
+    $analista = $_POST['analista'];
+    $descripcion = $_POST['descripcion'];
+    $tiquete = $_POST['tiquete'];
+
+    $stmt = $conexion->prepare("CALL sp_agregar_notificacion(?, ?, ?, ?, ?, '', '', ?, ?)");
+    if (!$stmt) {
+        $errorMessage = "Error en la consulta: " . $conexion->error;
+    } else {
+        $stmt->bind_param("iiissss", $id_Alerta, $id_Medio, $id_cliente, $comentarios, $analista, $descripcion, $tiquete);
+        if ($stmt->execute()) {
+            $successMessage = "Notificación registrada exitosamente.";
+        } else {
+            $errorMessage = "Error al registrar la notificación: " . $stmt->error;
+        }
+    }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -94,17 +95,24 @@ $successMessage = $errorMessage = '';
                     <li class="nav-item">
                         <a class="nav-link" href="proyectos.php">Proyectos</a>
                     </li>
+                                        <?php if ($esAdmin): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Administración
                         </a>
+                        
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Administrar usuarios</a></li>
                             <li><a class="dropdown-item" href="#">Administrar clientes</a></li>
                             <li><a class="dropdown-item" href="#">Administrar roles</a></li>
                         </ul>
+                        
                     </li>
+                    <?php endif; ?>
+
+
+
                 </ul>
             </div>
             <div>
@@ -113,87 +121,70 @@ $successMessage = $errorMessage = '';
         </div>
     </nav>
 
-    <section>
+    <section> 
+        <div class="container mt-5">
+            <h2>Registrar Nueva Notificación</h2>
 
-        <!-- Container -->
-        <div class="container">
-            <h2 class="form-title">Registrar nueva notificación:</h2>
-        </div>
+            <?php if ($successMessage): ?>
+                <div class="alert alert-success"><?= $successMessage ?></div>
+            <?php elseif ($errorMessage): ?>
+                <div class="alert alert-danger"><?= $errorMessage ?></div>
+            <?php endif; ?>
 
-        <div class="form-grid" id="form_notif">
-            <!-- Primera columna -->
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="analista">Analista:</label>
-                <input type="text" id="analista" name="analista">
-            </div>
-            <div class="mb-3">
-                <label for="id_Proyecto" class="form-label">Cliente</label>
-                <select class="form-select" id="id_Proyecto" name="id_Proyecto" required>
-                    <option value="" disabled selected>Seleccione un cliente</option>
-                    <?php foreach ($clientes as $cliente) : ?>
-                        <option value="<?php echo $cliente['id_Proyecto']; ?>">
-                            <?php echo htmlspecialchars($cliente['nombreCliente']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="descripcion">Descripción de notificación:</label>
-                <input type="text" id="descripcion" name="descripcion">
-            </div>
-            <div class="mb-3">
-                <label for="id_AlertaDiccionario" class="form-label">Nombre de la Alerta</label>
-                <select class="form-select" id="id_AlertaDiccionario" name="id_AlertaDiccionario" required>
-                    <option value="" disabled selected>Seleccione una alerta</option>
-                    <?php foreach ($alertasDiccionario as $alerta) : ?>
-                        <option value="<?php echo $alerta['id_AlertaDiccionario']; ?>">
-                            <?php echo htmlspecialchars($alerta['nombre']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="dispositivo">Dispositivo:</label>
-                <input type="text" id="dispositivo" name="dispositivo">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="fechaIncidencia">Fecha de incidencia:</label>
-                <input type="datetime-local" id="fechaIncidencia" name="fechaIncidencia" class="uniform-field">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="fechaNotificacion">Fecha de notificación:</label>
-                <input type="datetime-local" id="fechaNotificacion" name="fechaNotificacion" class="uniform-field">
-            </div>
-            <!-- Segunda columna -->
-            <div class="mb-3">
-                <label for="id_Medio" class="form-label">Medio de Notificación</label>
-                <select class="form-select" id="id_Medio" name="id_Medio" required>
-                    <option value="" disabled selected>Seleccione un medio</option>
-                    <?php foreach ($medios as $medio) : ?>
-                        <option value="<?php echo $medio['id_Medio']; ?>">
-                            <?php echo htmlspecialchars($medio['nombre']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="grupo">Grupo / Persona notificada:</label>
-                <input type="text" id="grupo" name="grupo">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="tiquete">Tiquete Speed-e:</label>
-                <input type="text" id="tiquete" name="tiquete">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="comentarios">Comentarios:</label>
-                <textarea id="comentarios" name="comentarios" rows="4"></textarea>
-            </div>
-        </div>
-        <!-- Botón de registro -->
-        <div class="button-container">
-            <button class="button-register">✏️ Registrar notificación</button>
-        </div>
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="id_Alerta" class="form-label">Alerta</label>
+                    <select class="form-select" id="id_Alerta" name="id_Alerta" required>
+                        <option value="" disabled selected>Seleccione una alerta</option>
+                        <?php foreach ($alertas as $alerta): ?>
+                            <option value="<?= $alerta['id_AlertaDiccionario'] ?>"><?= htmlspecialchars($alerta['nombre']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
+                <div class="mb-3">
+                    <label for="id_cliente" class="form-label">Cliente</label>
+                    <select class="form-select" id="id_cliente" name="id_cliente" required>
+                        <option value="" disabled selected>Seleccione un cliente</option>
+                        <?php foreach ($clientes as $cliente): ?>
+                            <option value="<?= $cliente['id_Proyecto'] ?>"><?= htmlspecialchars($cliente['nombreCliente']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_Medio" class="form-label">Medio</label>
+                    <select class="form-select" id="id_Medio" name="id_Medio" required>
+                        <option value="" disabled selected>Seleccione un medio</option>
+                        <?php foreach ($medios as $medio): ?>
+                            <option value="<?= $medio['id_Medio'] ?>"><?= htmlspecialchars($medio['nombre']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="comentarios" class="form-label">Comentarios</label>
+                    <input type="text" class="form-control" id="comentarios" name="comentarios" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="analista" class="form-label">Analista</label>
+                    <input type="text" class="form-control" id="analista" name="analista" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="tiquete" class="form-label">Tiquete Speed-e</label>
+                    <input type="text" class="form-control" id="tiquete" name="tiquete">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
+        </div>
     </section>
 
     <!-- Development of the common footer for the project -->

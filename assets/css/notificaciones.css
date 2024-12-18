@@ -8,29 +8,24 @@
     justify-content: flex-end;
     align-items: center;
     margin-top: 20px;
-    gap: 10px;
 }
 
-.button-back-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-    margin-left: 10px;
-}
-
-button {
-    padding: 10px 20px;
-    border: 0.5px solid #000000;
-    cursor: pointer;
-    color: black;
+.button-register {
+    background-color: #ff8c00 !important;
+    color: black !important;
+    font-weight: normal;
+    border: none;
     border-radius: 5px;
-
+    padding: 10px 20px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.button-back,
-.button-register,
-.button-copy {
-    background-color: #ff8c00;
+.button-register:hover {
+    background-color: #e07b00 !important;
+    color: white !important;
 }
 
 .alert-info,

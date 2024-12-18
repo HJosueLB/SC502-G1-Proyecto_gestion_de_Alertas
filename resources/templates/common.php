@@ -29,17 +29,24 @@
                         <a class="nav-link" href="proyectos.php">Proyectos</a>
                     </li>
 
+                                        <?php if ($esAdmin): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Administración
                         </a>
+                        
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Administrar usuarios</a></li>
                             <li><a class="dropdown-item" href="#">Administrar clientes</a></li>
                             <li><a class="dropdown-item" href="#">Administrar roles</a></li>
                         </ul>
+                        
                     </li>
+                    <?php endif; ?>
+
+
+
                 </ul>
             </div>
             <div>

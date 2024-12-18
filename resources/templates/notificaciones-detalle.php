@@ -1,42 +1,55 @@
 <?php
-// Database connection
-$conexion = new mysqli('localhost', 'root', '', 'gestoralertas');
-if ($conexion->connect_error) {
-    die("Connection error: " . $conexion->connect_error);
+session_start();
+require_once 'conexion.php';
+
+// Check if the user is authenticated
+if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
+    header("Location: login-page.php");
+    exit();
 }
 
-// Function to get dropdown options
-function obtenerOpcionesDropdown($conexion, $tableName, $idField, $displayField) {
-    $stmt = $conexion->prepare("SELECT $idField, $displayField FROM $tableName");
-    $stmt->execute();
-    $result = $stmt->get_result();
+// Variable to control the visibility of elements
+$esAdmin = ($_SESSION['rol'] === 'administrador');
 
-    $options = [];
-    while ($row = $result->fetch_assoc()) {
-        $options[] = $row;
-    }
-    return $options;
+// Get notification ID from the URL
+if (!isset($_GET['id'])) {
+    header("Location: notificaciones.php");
+    exit();
+}
+$id_notificacion = intval($_GET['id']);
+
+// Fetch notification details
+$query = "SELECT n.*, d.nombre AS alerta, p.nombreCliente AS cliente, m.nombre AS medio
+          FROM gestoralertas.notificaciones n
+          JOIN gestoralertas.diccionarioalertas d ON n.id_Alerta = d.id_AlertaDiccionario
+          JOIN gestoralertas.proyectos p ON n.id_cliente = p.id_Proyecto
+          JOIN gestoralertas.medioNotificacion m ON n.id_Medio = m.id_Medio
+          WHERE n.id_notificacion = ?";
+$stmt = $conexion->prepare($query);
+$stmt->bind_param("i", $id_notificacion);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$notificacion = $resultado->fetch_assoc();
+
+if (!$notificacion) {
+    die("No se encontró la notificación.");
 }
 
-// Retrieve options for dropdowns
-$alertas = obtenerOpcionesDropdown($conexion, 'diccionarioAlertas', 'id_AlertaDiccionario', 'nombre');
-$medios = obtenerOpcionesDropdown($conexion, 'medioNotificacion', 'id_Medio', 'nombreMedio');
-$clientes = obtenerOpcionesDropdown($conexion, 'proyectos', 'id_Proyecto', 'nombreCliente');
-
-// Form handling
+// Process update form
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $idAlerta = $_POST['alerta'];
-    $idMedio = $_POST['medio'];
-    $idCliente = $_POST['cliente'];
-    $mensaje = "Notification for the selected alert";
+    $comentarios = $_POST['comentarios'];
+    $analista = $_POST['analista'];
+    $descripcion = $_POST['descripcion'];
+    $tiquete = $_POST['tiquete'];
 
-    // Call stored procedure to register notification
-    $stmt = $conexion->prepare("CALL P_RegistrarNotificacion(?, ?, 'Sent')");
-    $stmt->bind_param('is', $idAlerta, $mensaje);
-    if ($stmt->execute()) {
-        $success = "Notification successfully registered.";
+    $update = $conexion->prepare("CALL sp_editar_notificacion(?, ?, ?, '', '', ?, ?)");
+    $update->bind_param("issss", $id_notificacion, $comentarios, $analista, $descripcion, $tiquete);
+
+    if ($update->execute()) {
+        header("Location: notificaciones.php?mensaje=actualizado");
+        exit();
     } else {
-        $error = "Error registering notification: " . $conexion->error;
+        $errorMessage = "Error al actualizar la notificación: " . $update->error;
     }
 }
 ?>
@@ -63,8 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
-    <!-- Development of the common navbar for the project -->
-    <nav class="navbar navbar-expand-lg" id="nav_common">
+<!-- Development of the common navbar for the project -->
+<nav class="navbar navbar-expand-lg" id="nav_common">
         <div class="container-fluid">
             <a class="navbar-brand" href="common.php" id="nav_logoCommon">
                 <img src="/SC502-G1-Proyecto_gestion_de_Alertas/assets/media/logo.png" alt="Logo">
@@ -77,20 +90,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <li class="nav-item">
                         <a class="nav-link" href="notificaciones.php">Notificaciones</a>
                     </li>
+                    <?php if ($esAdmin): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="proyectos.php">Proyectos</a>
                     </li>
+                    <?php endif; ?>
+                    <?php if ($esAdmin): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Administración
                         </a>
+                        
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Administrar usuarios</a></li>
                             <li><a class="dropdown-item" href="#">Administrar clientes</a></li>
                             <li><a class="dropdown-item" href="#">Administrar roles</a></li>
                         </ul>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
             <div>
@@ -100,78 +118,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </nav>
 
     <section>
-        <!-- Container -->
-        <div class="container">
-            <h2 class="form-title">Código de notificación:</h2>
+        <div class="container mt-5">
+            <h2>Detalle de Notificación</h2>
 
-            <!-- Botones de Editar y Guardar -->
-            <div class="button-container">
-                <button class="button">✏️ Editar</button>
-                <button class="button">💾 Guardar</button>
-                <a href="notificaciones.php">
-                <button class="button">Regresar</button>
-                </a>
-            </div>
+            <?php if (!empty($errorMessage)): ?>
+                <div class="alert alert-danger"><?= htmlspecialchars($errorMessage) ?></div>
+            <?php endif; ?>
 
-            <div class="form-grid" id="form_detalle">
-              <!-- Primera columna -->
-            <div class=" form-group" style="margin-bottom: 15px;">
-                <label for="analista">Analista:</label>
-                <input type="text" id="analista" name="analista">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="cliente">Cliente:</label>
-                <input type="text" id="cliente" name="cliente">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="herramienta">Herramienta de monitoreo:</label>
-                <input type="text" id="herramienta" name="herramienta">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="descripcion">Descripción de notificación:</label>
-                <input type="text" id="descripcion" name="descripcion">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="alerta">Nombre de la Alerta:</label>
-                <input type="text" id="alerta" name="alerta">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="criticidad">Criticidad:</label>
-                <input type="text" id="criticidad" name="criticidad">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="dispositivo">Dispositivo:</label>
-                <input type="text" id="dispositivo" name="dispositivo">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="fechaIncidencia">Fecha de incidencia:</label>
-                <input type="datetime-local" id="fechaIncidencia" name="fechaIncidencia" class="uniform-field">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="fechaNotificacion">Fecha de notificación:</label>
-                <input type="datetime-local" id="fechaNotificacion" name="fechaNotificacion" class="uniform-field">
-            </div>
-            <!-- Segunda columna -->
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="canal">Canal de comunicación:</label>
-                <input type="text" id="canal" name="canal">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="grupo">Grupo / Persona notificada:</label>
-                <input type="text" id="grupo" name="grupo">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="tiquete">Tiquete Speed-e:</label>
-                <input type="text" id="tiquete" name="tiquete">
-            </div>
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="vertical">Vertical de ingeniería:</label>
-                <input type="text" id="vertical" name="vertical"">
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="comentarios" class="form-label">Comentarios</label>
+                    <input type="text" class="form-control" id="comentarios" name="comentarios" value="<?= htmlspecialchars($notificacion['comentarios']) ?>" required>
                 </div>
-                <div class=" form-group" style="margin-bottom: 15px;">
-                <label for="comentarios">Comentarios:</label>
-                <textarea id="comentarios" name="comentarios" rows="4"></textarea>
-            </div>
+
+                <div class="mb-3">
+                    <label for="analista" class="form-label">Analista</label>
+                    <input type="text" class="form-control" id="analista" name="analista" value="<?= htmlspecialchars($notificacion['analista']) ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?= htmlspecialchars($notificacion['descripcion']) ?></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="alerta" class="form-label">Alerta</label>
+                    <input type="text" class="form-control" id="alerta" value="<?= htmlspecialchars($notificacion['alerta']) ?>" disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="cliente" class="form-label">Cliente</label>
+                    <input type="text" class="form-control" id="cliente" value="<?= htmlspecialchars($notificacion['cliente']) ?>" disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="medio" class="form-label">Medio</label>
+                    <input type="text" class="form-control" id="medio" value="<?= htmlspecialchars($notificacion['medio']) ?>" disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="tiquete" class="form-label">Tiquete Speed-e</label>
+                    <input type="text" class="form-control" id="tiquete" name="tiquete" value="<?= htmlspecialchars($notificacion['tiqueteSpeede']) ?>">
+                </div>
+
+                <div class="mb-3">
+                    <label for="fechaNotificacion" class="form-label">Fecha de Notificación</label>
+                    <input type="text" class="form-control" id="fechaNotificacion" value="<?= htmlspecialchars($notificacion['fechaNotificacion']) ?>" disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="fechaIncidencia" class="form-label">Fecha de Incidencia</label>
+                    <input type="text" class="form-control" id="fechaIncidencia" value="<?= htmlspecialchars($notificacion['fechaIncidencianotificaciones']) ?>" disabled>
+                </div>
+                <?php if ($esAdmin): ?>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <?php endif; ?>
+                <a href="notificaciones.php" class="btn btn-secondary">Regresar</a>
+            </form>
+        </div>
     </section>
 
     <!-- Development of the common footer for the project -->

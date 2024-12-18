@@ -74,8 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar'])) {
 
 <body>
 
-     <!-- Development of the common navbar for the project -->
-     <nav class="navbar navbar-expand-lg" id="nav_common">
+<!-- Development of the common navbar for the project -->
+<nav class="navbar navbar-expand-lg" id="nav_common">
         <div class="container-fluid">
             <a class="navbar-brand" href="common.php" id="nav_logoCommon">
                 <img src="/SC502-G1-Proyecto_gestion_de_Alertas/assets/media/logo.png" alt="Logo">
@@ -83,8 +83,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar'])) {
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="proyectos.php"><strong>Proyectos</strong></a>
+                        <a class="nav-link" href="alerta-cliente.php">Alertas por cliente</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="notificaciones.php">Notificaciones</a>
+                    </li>
+                    <?php if ($esAdmin): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="proyectos.php">Proyectos</a>
+                    </li>
+                    <?php endif; ?>
+                    <?php if ($esAdmin): ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Administración
+                        </a>
+                        
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Administrar usuarios</a></li>
+                            <li><a class="dropdown-item" href="#">Administrar clientes</a></li>
+                            <li><a class="dropdown-item" href="#">Administrar roles</a></li>
+                        </ul>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </div>
             <div>

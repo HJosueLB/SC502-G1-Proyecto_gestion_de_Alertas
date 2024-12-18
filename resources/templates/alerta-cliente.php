@@ -77,20 +77,26 @@ $alertas = obtenerAlertasFiltradas($conexion);
                     <li class="nav-item">
                         <a class="nav-link" href="notificaciones.php">Notificaciones</a>
                     </li>
+                    <?php if ($esAdmin): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="proyectos.php">Proyectos</a>
-                    </li>
+                    </li>}
+                    <?php endif; ?>
+                    <?php if ($esAdmin): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Administración
                         </a>
+                        
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Administrar usuarios</a></li>
                             <li><a class="dropdown-item" href="#">Administrar clientes</a></li>
                             <li><a class="dropdown-item" href="#">Administrar roles</a></li>
                         </ul>
+                        
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
             <div>
@@ -117,11 +123,13 @@ $alertas = obtenerAlertasFiltradas($conexion);
                                 onkeyup="filtrarPorNombre(this.value)"
                             >
                         </div>
+                        <?php if ($esAdmin): ?>
                         <div class="col-md-6 d-flex justify-content-end">
                             <button class="btn-register" onclick="window.location.href='alerta-registrar.php';">
                                 Registrar Alerta
                             </button>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

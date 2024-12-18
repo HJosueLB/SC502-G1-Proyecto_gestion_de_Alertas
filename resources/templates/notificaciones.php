@@ -1,14 +1,24 @@
 <?php
 session_start();
+require_once 'conexion.php';
 
-//Check if the user is authenticated
+// Check if the user is authenticated
 if (!isset($_SESSION['id']) || !isset($_SESSION['rol'])) {
     header("Location: login-page.php");
     exit();
 }
 
-//Variable to control the visibility of elements
+// Variable to control the visibility of elements
 $esAdmin = ($_SESSION['rol'] === 'administrador');
+
+// Get a list of notifications
+$query = "SELECT n.id_notificacion, n.fechaNotificacion, n.comentarios, 
+                 n.analista, p.nombreCliente AS cliente, d.nombre AS alerta, n.descripcion
+          FROM gestoralertas.notificaciones n
+          JOIN gestoralertas.diccionarioalertas d ON n.id_Alerta = d.id_AlertaDiccionario
+          JOIN gestoralertas.proyectos p ON n.id_cliente = p.id_Proyecto";
+$resultado = $conexion->query($query);
+$notificaciones = $resultado->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -47,19 +57,25 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
                     <li class="nav-item">
                         <a class="nav-link" href="notificaciones.php">Notificaciones</a>
                     </li>
+                    <?php if ($esAdmin): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="proyectos.php">Proyectos</a>
                     </li>
+                    <?php endif; ?>
+                    <?php if ($esAdmin): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Administración
                         </a>
+                        
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Administrar usuarios</a></li>
+                            <li><a class="dropdown-item" href="#">Administrar clientes</a></li>
                             <li><a class="dropdown-item" href="#">Administrar roles</a></li>
                         </ul>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
             <div>
@@ -69,135 +85,47 @@ $esAdmin = ($_SESSION['rol'] === 'administrador');
     </nav>
 
     <section>
-        <!-- Container -->
-        <div class="container">
-
-            <!--Search-section bar -->
-            <div class="search-section">
-                <div class="container">
-                    <div class="row g-3 align-items-end">
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder="Buscar">
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn-search">
-                                <i class="bi bi-search"></i> Buscar
-                            </button>
-                            <button class="btn-search ">
-                                <i class="fa-solid fa-arrows-rotate"></i>
-                                Actualizar
-                            </button>
-                        </div>
-                        <div class="col-md-3"></div>
-                        <div class="col-md-3">
-                            <!--It is validated if the user is an administrator, if this is not the case the button will not be displayed.-->
-                            <?php if ($esAdmin): ?>
-                                <a href="notificaciones-registro.php">
-                                    <button class="btn-search">
-                                        <i class="fa-solid fa-pen-to-square fa-1x icon-spacing"></i>
-                                        Registrar notificación
-                                    </button>
-                                </a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
+    <div class="container">
+            <h2>Lista de Notificaciones</h2>
+                <?php if ($esAdmin): ?>
+                <div class="buttons-container">
+                    <button class="button-register" id="registrarNotif" onclick="window.location.href='notificaciones-registro.php';">
+                        Registrar Notificación
+                    </button>
                 </div>
-            </div>
-
-            <!-- Tabla de Datos -->
-            <!--<div class="container mt-4">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Opciones</th>
-                                <th>Código ID</th>
-                                <th>Marca temporal</th>
-                                <th>Analista</th>
-                                <th>Cliente</th>
-                                <th>Alerta</th>
-                                <th>Descripción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div>
-                                        <a href="notificaciones-detalle.php" class="d-flex flex-column align-items-center text-center no-link">
-                                            <i class="fa-solid fa-up-right-from-square fa-2x icon-spacing"
-                                                style="color: #000000"></i>
-                                            Abrir
-                                        </a>
-                                    </div>
-                                </td>
-                                <td>NOT-0000001</td>
-                                <td>17-11-2024 15:05</td>
-                                <td>Harlyn Josue Luna Brenes</td>
-                                <td>Ministerio de Educación Pública</td>
-                                <td>Brute Force Host Login Success</td>
-                                <td>MEP - FORTISIEM - Brute Force Host Login Success</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <?php endif; ?>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Analista</th>
+                            <th>Cliente</th>
+                            <th>Alerta</th>
+                            <th>Descripción</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($notificaciones as $n): ?>
+                        <tr>
+                            <td><?= $n['id_notificacion'] ?></td>
+                            <td><?= htmlspecialchars($n['fechaNotificacion']) ?></td>
+                            <td><?= htmlspecialchars($n['analista']) ?></td>
+                            <td><?= htmlspecialchars($n['cliente']) ?></td>
+                            <td><?= htmlspecialchars($n['alerta']) ?></td>
+                            <td><?= htmlspecialchars($n['descripcion']) ?></td>
+                            <td>
+                                <a href="notificaciones-detalle.php?id=<?= $n['id_notificacion'] ?>" class="btn btn-info btn-sm">Ver</a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>-->
-
-            <?php
-            function generarTabla($datos)
-            {
-                // Table content
-                $html = '
-    <div class="container mt-4">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Opciones</th>
-                        <th>Código ID</th>
-                        <th>Marca temporal</th>
-                        <th>Analista</th>
-                        <th>Cliente</th>
-                        <th>Alerta</th>
-                        <th>Descripción</th>
-                    </tr>
-                </thead>
-                <tbody>';
-
-                // Iterates on data to create the rows
-                foreach ($datos as $fila) {
-                    $html .= '
-        <tr>
-            <td>
-                <div>
-                    <a href="notificaciones-detalle.php?id=' . htmlspecialchars($fila['id']) . '" class="d-flex flex-column align-items-center text-center no-link">
-                        <i class="fa-solid fa-up-right-from-square fa-2x icon-spacing" style="color: #000000"></i>
-                        Abrir
-                    </a>
-                </div>
-            </td>
-            <td>' . htmlspecialchars($fila['codigo_id']) . '</td>
-            <td>' . htmlspecialchars($fila['marca_temporal']) . '</td>
-            <td>' . htmlspecialchars($fila['analista']) . '</td>
-            <td>' . htmlspecialchars($fila['cliente']) . '</td>
-            <td>' . htmlspecialchars($fila['alerta']) . '</td>
-            <td>' . htmlspecialchars($fila['descripcion']) . '</td>
-        </tr>';
-                }
-
-                // Table closes
-                $html .= '
-                </tbody>
-            </table>
-        </div>
-    </div>';
-
-                return $html;
-
-                echo generarTabla($datosEjemplo);
-            };
-            ?>
+    </section>
 
             <!-- Project's common footer development-->
             <footer class="mt-auto p-2" id="footer_common">
